@@ -6,49 +6,26 @@
 /*   By: imugica- <imugica-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 13:16:36 by imugica-          #+#    #+#             */
-/*   Updated: 2025/05/13 11:12:58 by imugica-         ###   ########.fr       */
+/*   Updated: 2025/05/13 13:27:05 by imugica-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
 
-
-t_Vector3	vector_add(t_Vector3 a, t_Vector3 b)
-{
-	return ((t_Vector3){a.x + b.x, a.y + b.y, a.z + b.z});
-}
-
-t_Vector3	vector_sub(t_Vector3 a, t_Vector3 b)
-{
-	return ((t_Vector3){a.x - b.x, a.y - b.y, a.z - b.z});
-}
-
-float	vector_dot(t_Vector3 a, t_Vector3 b)
-{
-	return (a.x * b.x + a.y * b.y + a.z * b.z);
-}
-
-float	vector_magnitude(t_Vector3 v)
-{
-	return (sqrtf(v.x * v.x + v.y * v.y + v.z * v.z));
-}
-
-t_Vector3	vector_normalize(t_Vector3 v)
-{
-	float	mag;
-
-	mag = vector_magnitude(v);
-	if (mag == 0.0f)
-		return ((t_Vector3){0, 0, 0});
-	return ((t_Vector3){v.x / mag, v.y / mag, v.z / mag});
-}
-
-t_Vector3	vector_scale(t_Vector3 v, float scalar)
-{
-	return ((t_Vector3){v.x * scalar, v.y * scalar, v.z * scalar});
-}
-
 int	main(int c, char **args)
 {
+	float			t;
+
+	t_Vector3 ray_origin = {0, 0, 0};
+	t_Vector3 ray_dir = {0, 0, 1};
+	t_sphere_prop sphere = {{0, 0, 5}, {0, 0, 0}, 1.0f, {255, 0, 0}};
+	if (ray_sphere_intersect(ray_origin, ray_dir, sphere, &t))
+	{
+		printf("Intersection at t = %f\n", t);
+	}
+	else
+	{
+		printf("No intersection\n");
+	}
 	return (0);
 }
