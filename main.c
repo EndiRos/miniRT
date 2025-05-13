@@ -6,7 +6,7 @@
 /*   By: imugica- <imugica-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 13:16:36 by imugica-          #+#    #+#             */
-/*   Updated: 2025/05/12 13:29:22 by imugica-         ###   ########.fr       */
+/*   Updated: 2025/05/13 11:12:58 by imugica-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,14 +50,5 @@ t_Vector3	vector_scale(t_Vector3 v, float scalar)
 
 int	main(int c, char **args)
 {
-	t_Vector3 a;
-	a.x = 1.0;
-	a.y = 1.0;
-	a.x = 1.0;
-	t_Vector3 b;
-	b.x = 1.0;
-	b.y = 1.0;
-	b.x = 1.0;
-	printf(vector_magnitude());
 	return (0);
 }
