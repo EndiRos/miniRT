@@ -6,7 +6,7 @@
 /*   By: enetxeba <enetxeba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 13:16:46 by imugica-          #+#    #+#             */
-/*   Updated: 2025/05/13 10:51:13 by enetxeba         ###   ########.fr       */
+/*   Updated: 2025/05/13 11:06:56 by enetxeba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,15 +41,37 @@ typedef struct s_light
 	float		intensity;
 }			t_light;
 
+typedef struct s_cyl_prop
+{
+	t_Vector3		pos;
+	t_Vector3		rot;
+	float			radius;
+	float			height;
+	t_RGB			color;
+}			t_cyl_prop;
+
+typedef struct s_sphere_prop
+{
+	t_Vector3		pos;
+	t_Vector3		rot;
+	float			radius;
+	t_RGB			color;
+}			t_sphere_prop;
+
+typedef struct s_plane_prop
+{
+	t_Vector3		pos;
+	t_Vector3		normal;
+	t_RGB			color;
+}			t_plane_prop;
+
 typedef struct s_objects
 {
 	enum e_obj_type	obj_type;
-	t_Vector3		pos;
-	t_Vector3		rot;
-	float			**props;
-	t_RGB			color;
+	void			*props;
 	t_object		*next;
 }			t_object;
+
 
 typedef struct s_settings
 {
@@ -73,3 +95,12 @@ enum		e_obj_type
 	CYLINDER,
 	PLANE
 };
+
+typedef struct s_material
+{
+	float	difuse;
+	float	specular;
+	float	reflexion;
+	float	refraction;
+	float	IOR;
+}				t_scene;
