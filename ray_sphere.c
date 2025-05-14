@@ -8,13 +8,13 @@ int	quadratic(float a, float b, float c, float *t0)
 	float	t1;
 	float	t2;
 
-	discriminant = b * b - 4 * a * c;
-	if (discriminant < 0)
+	discriminant = b * b - 4.0f * a * c;
+	if (discriminant < 0.0f)
 		return (0);
 	sqrt_disc = sqrtf(discriminant);
 	t1 = (-b - sqrt_disc) / (2 * a);
 	t2 = (-b + sqrt_disc) / (2 * a);
-	if (t1 > 0.001f)
+	if (t1 > 0.001f && (t1 < t2 || t2 < 0.001f))
 	{
 		*t0 = t1;
 		return (1);
