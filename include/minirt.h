@@ -6,12 +6,20 @@
 /*   By: enetxeba <enetxeba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 13:16:46 by imugica-          #+#    #+#             */
-/*   Updated: 2025/05/13 11:06:56 by enetxeba         ###   ########.fr       */
+/*   Updated: 2025/05/14 12:23:17 by enetxeba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <math.h>
 #include <stdio.h>
+#include <stdlib.h>
+
+typedef enum	e_obj_type
+{
+	SPHERE,
+	CYLINDER,
+	PLANE
+}				t_obj_type;
 
 typedef struct s_Vector3
 {
@@ -41,6 +49,15 @@ typedef struct s_light
 	float		intensity;
 }			t_light;
 
+typedef struct s_material
+{
+	t_RGB	difuse;
+	t_RGB	specular;
+	t_RGB	reflexion;
+	t_RGB	refraction;
+	float	IOR;
+}			t_material;
+
 typedef struct s_cyl_prop
 {
 	t_Vector3		pos;
@@ -48,30 +65,29 @@ typedef struct s_cyl_prop
 	float			radius;
 	float			height;
 	t_RGB			color;
-}			t_cyl_prop;
+}				t_cyl_prop;
 
 typedef struct s_sphere_prop
 {
 	t_Vector3		pos;
 	t_Vector3		rot;
 	float			radius;
-	t_RGB			color;
+	t_material		*material;
 }			t_sphere_prop;
 
 typedef struct s_plane_prop
 {
 	t_Vector3		pos;
 	t_Vector3		normal;
-	t_RGB			color;
+	t_material		*material;
 }			t_plane_prop;
 
-typedef struct s_objects
+typedef struct s_object
 {
-	enum e_obj_type	obj_type;
-	void			*props;
-	t_object		*next;
-}			t_object;
-
+	enum e_obj_type		obj_type;
+	void				*props;
+	struct s_object		*next;
+}				t_object;
 
 typedef struct s_settings
 {
@@ -89,18 +105,6 @@ typedef struct s_scene
 }				t_scene;
 
 
-enum		e_obj_type
-{
-	SPHERE,
-	CYLINDER,
-	PLANE
-};
 
-typedef struct s_material
-{
-	float	difuse;
-	float	specular;
-	float	reflexion;
-	float	refraction;
-	float	IOR;
-}				t_scene;
+
+
