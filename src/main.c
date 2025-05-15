@@ -6,7 +6,7 @@
 /*   By: imugica- <imugica-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 13:16:36 by imugica-          #+#    #+#             */
-/*   Updated: 2025/05/14 11:49:06 by imugica-         ###   ########.fr       */
+/*   Updated: 2025/05/14 14:32:00 by imugica-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int	main(int c, char **args)
 
 	t_cyl_prop cyl;
 	cyl.pos = (t_Vector3){0, 0, 5};
-	cyl.rot = vector_normalize((t_Vector3){1, 1, 1}); // diagonal cylinder
+	cyl.rot = vector_normalize((t_Vector3){1, 1, 1});
 	cyl.radius = 1.0f;
 	cyl.height = 4.0f;
 
