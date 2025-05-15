@@ -6,7 +6,7 @@
 /*   By: enetxeba <enetxeba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 13:16:46 by imugica-          #+#    #+#             */
-/*   Updated: 2025/05/15 10:27:27 by enetxeba         ###   ########.fr       */
+/*   Updated: 2025/05/15 10:56:49 by enetxeba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,6 +103,27 @@ typedef struct s_scene
 	t_object	*objects;
 	t_settings	*seting;
 }				t_scene;
+
+t_Vector3				vector_add(t_Vector3 a, t_Vector3 b);
+
+t_Vector3				vector_sub(t_Vector3 a, t_Vector3 b);
+
+float					vector_dot(t_Vector3 a, t_Vector3 b);
+
+float					vector_magnitude(t_Vector3 v);
+
+t_Vector3				vector_normalize(t_Vector3 v);
+
+t_Vector3				vector_scale(t_Vector3 v, float scalar);
+
+int						quadratic(float a, float b, float c, float *t0);
+int						ray_sphere_intersect(t_Vector3 ray_orig,
+							t_Vector3 ray_dir, t_sphere_prop sphere, float *t0);
+int						ray_plane_intersect(t_Vector3 ray_orig,
+							t_Vector3 ray_dir, t_plane_prop plane, float *t);
+int						ray_cylinder_intersect(t_Vector3 ray_orig,
+							t_Vector3 ray_dir, t_cyl_prop cyl, float *t_out);
+
 
 
 
