@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   color.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: enetxeba <enetxeba@student.42.fr>          +#+  +:+       +#+        */
+/*   By: imugica- <imugica-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 11:18:17 by enetxeba          #+#    #+#             */
-/*   Updated: 2025/05/15 11:21:54 by enetxeba         ###   ########.fr       */
+/*   Updated: 2025/05/15 13:39:27 by imugica-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,9 @@
 
 unsigned int	rgb_to_rgba(t_RGB *rgb)
 {
-	return (((rgb->r >> 16) & 0xFF) << 24 | ((rgb->g >> 8) & 0xFF) << 16 | \
-	(rgb->b & 0xFF) << 8 | 0xFF);
+    return ((rgb->r & 0xFF) << 24) |
+           ((rgb->g & 0xFF) << 16) |
+           ((rgb->b & 0xFF) << 8)  |
+           0xFF;  // alpha = 255
+
 }

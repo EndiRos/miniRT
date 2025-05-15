@@ -27,16 +27,23 @@ int	quadratic(float a, float b, float c, float *t0)
 	return (0);
 }
 
-int	ray_sphere_intersect(t_Vector3 ray_orig, t_Vector3 ray_dir,
+unsigned int	ray_sphere_intersect(t_Vector3 ray_orig, t_Vector3 ray_dir,
 		t_sphere_prop sphere, float *t0)
 {
-	t_Vector3 L;
-	float t1;
-	float t2;
-	int res;
+	t_Vector3	L;
+	float		t1;
+	int			res;
 
+	res = 0;
+	t1 = *t0;
 	L = vector_sub(ray_orig, sphere.pos);
 	res = quadratic(vector_dot(ray_dir, ray_dir), 2.0f * vector_dot(ray_dir, L),
-			vector_dot(L, L) - sphere.radius * sphere.radius, t0);
-	return (res);
+			vector_dot(L, L) - sphere.radius * sphere.radius, &t1);
+	if (res)
+	{
+		if (t1 < *t0)
+			*t0 = t1;
+		return (rgb_to_rgba(&sphere.material->difuse));
+	}
+	return (255);
 }
