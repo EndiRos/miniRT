@@ -6,7 +6,7 @@ LIB_DIR = lib
 MLX_A= $(LIB_DIR)/libmlx42.a
 NAME = minirt
 MLX_FLAG = -ldl -lglfw -pthread -lm 
-SRC = $(SRC_DIR)/display.c
+SRC = $(SRC_DIR)/main.c
 OBJS = $(SRC:.c=.o)
 
 all: $(NAME)
