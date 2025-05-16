@@ -6,7 +6,7 @@
 /*   By: enetxeba <enetxeba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 13:16:46 by imugica-          #+#    #+#             */
-/*   Updated: 2025/05/16 12:07:27 by enetxeba         ###   ########.fr       */
+/*   Updated: 2025/05/16 12:11:17 by enetxeba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,9 +32,9 @@ typedef struct s_Vector3
 
 typedef struct s_RGB
 {
-	float	r;
-	float	g;
-	float	b;
+	int	r;
+	int	g;
+	int	b;
 }			t_RGB;
 
 typedef struct s_camera
@@ -68,7 +68,7 @@ typedef struct s_cyl_prop
 	t_Vector3		rot;
 	float			radius;
 	float			height;
-	t_RGB			color;
+	t_material		*material;
 }				t_cyl_prop;
 
 typedef struct s_sphere_prop
@@ -128,7 +128,7 @@ int						ray_plane_intersect(t_Vector3 ray_orig,
 int						ray_cylinder_intersect(t_Vector3 ray_orig,
 							t_Vector3 ray_dir, t_cyl_prop cyl, float *t_out);
 
-
+unsigned int			rgb_to_rgba(t_RGB *rgb);
 
 
 
