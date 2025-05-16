@@ -6,7 +6,7 @@
 /*   By: imugica- <imugica-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 13:16:36 by imugica-          #+#    #+#             */
-/*   Updated: 2025/05/16 12:03:14 by imugica-         ###   ########.fr       */
+/*   Updated: 2025/05/16 13:19:31 by imugica-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,58 +91,35 @@ int	check_coll(float px, float py, t_scene *escena, t_object	*obj)
 
 void	calculate_image(mlx_image_t *image, t_scene *escena)
 {
-	t_object		*obj;
-	float			screen_x;
-	float			screen_y;
-	unsigned int	px;
+    unsigned int	px;
 	unsigned int	py;
+	unsigned int	color;
+	float			px_camera;
+	float			py_camera;
 
 	px = 0;
 	py = 0;
-	obj = escena->objects;
-	while (py < image->height)
-	{
-		while (px < image->width)
-		{
-			screen_x = (2.0f * px) / image->width - 1.0f;
-			screen_y = 1.0f - (2.0f * py) / image->height;
-			mlx_put_pixel(image, px, py, check_coll(screen_x, screen_y,
-					escena, obj));
-			px++;
-		}
+	escena->cam->aspect_ratio = (float)image->width / (float)image->height;
+    escena->cam->fov = escena->cam->fov * (M_PI / 180.0f);
+    escena->cam->scale = tanf(escena->cam->fov / 2.0f);
+    while (py < image->height)
+    {
+        while (px < image->width)
+        {
+            px_camera = (2.0f * (px + 0.5f) / image->width - 1.0f) * escena->cam->aspect_ratio * escena->cam->scale;
+        	py_camera = (1.0f - 2.0f * (py + 0.5f) / image->height) * escena->cam->scale;
+
+            color = check_coll(px_camera, py_camera, escena, escena->objects);
+            mlx_put_pixel(image, px++, py, color);
+        }
 		px = 0;
 		py++;
-	}
+    }
 }
-
-/*
-void	calculate_image(mlx_image_t *image, t_scene *escena)
-{
-	float aspect_ratio = (float)image->width / (float)image->height;
-	float fov_rad = escena->cam->fov * (M_PI / 180.0f);
-	float scale = tanf(fov_rad / 2.0f);
-
-	unsigned int px, py;
-
-	for (py = 0; py < image->height; py++)
-	{
-		for (px = 0; px < image->width; px++)
-		{
-			float px_ndc = (px + 0.5f) / image->width;
-			float py_ndc = (py + 0.5f) / image->height;
-
-			float px_camera = (2.0f * px_ndc - 1.0f) * aspect_ratio * scale;
-			float py_camera = (1.0f - 2.0f * py_ndc) * scale;
-
-			unsigned int color = check_coll(px_camera, py_camera, escena);
-			mlx_put_pixel(image, px, py, color);
-		}
-	}
-}*/
 
 int	main(int argc, char **argv)
 {
-	mlx_t 		*mlx;
+	mlx_t		*mlx;
 	mlx_image_t	*image;
 	t_scene		*escena;
 
