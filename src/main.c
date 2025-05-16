@@ -6,7 +6,7 @@
 /*   By: imugica- <imugica-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 13:16:36 by imugica-          #+#    #+#             */
-/*   Updated: 2025/05/15 13:55:07 by imugica-         ###   ########.fr       */
+/*   Updated: 2025/05/16 12:03:14 by imugica-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,48 +34,51 @@ int	main(int c, char **args)
 	return (0);
 }
  */
-void	key_hook(void *param)
+void	key_hook(struct mlx_key_data keydata, void *param)
 {
 	mlx_t	*mlx;
 
 	mlx = param;
-	if (mlx_is_key_down(mlx, MLX_KEY_ESCAPE))
+	if (keydata.key == MLX_KEY_ESCAPE && keydata.action == MLX_PRESS)
 	{
 		mlx_close_window(mlx);
 	}
 }
-int	check_coll(float px, float py, t_scene *escena)
+
+unsigned int	get_intersection(t_object *obj, t_Vector3 ray_origin,
+		t_Vector3 ray_dir, float *dist)
 {
-	t_Vector3		ray_origin;
-	t_Vector3		ray_dir;
-	float			dist;
-	float			min_dist;
 	unsigned int	color;
-	t_object		*obj;
+
+	color = 0;
+	if (obj->obj_type == SPHERE)
+		color = ray_sphere_intersect(ray_origin, ray_dir,
+				*(t_sphere_prop *)obj->props, dist);
+	else if (obj->obj_type == CYLINDER)
+		color = ray_cylinder_intersect(ray_origin, ray_dir,
+				*(t_cyl_prop *)obj->props, dist);
+	else if (obj->obj_type == PLANE)
+		color = ray_plane_intersect(ray_origin, ray_dir,
+				*(t_plane_prop *)obj->props, dist);
+	return (color);
+}
+
+int	check_coll(float px, float py, t_scene *escena, t_object	*obj)
+{
+	t_Vector3		ray_dir;
+	float			min_dist;
 	unsigned int	min_color;
 	float			temp_dist;
 	unsigned int	temp_color;
 
-	dist = FLT_MAX;
-	min_dist = dist;
-	ray_origin = escena->cam->pos;
 	ray_dir = vector_normalize((t_Vector3){px, py, 1});
-	color = 0;
+	min_dist = FLT_MAX;
 	min_color = 0;
-	obj = escena->objects;
 	while (obj)
 	{
 		temp_dist = FLT_MAX;
-		temp_color = 0;
-		if (obj->obj_type == SPHERE)
-			temp_color = ray_sphere_intersect(ray_origin, ray_dir,
-					*(t_sphere_prop *)obj->props, &temp_dist);
-		else if (obj->obj_type == CYLINDER)
-			temp_color = ray_cylinder_intersect(ray_origin, ray_dir,
-					*(t_cyl_prop *)obj->props, &temp_dist);
-		else if (obj->obj_type == PLANE)
-			temp_color = ray_plane_intersect(ray_origin, ray_dir,
-					*(t_plane_prop *)obj->props, &temp_dist);
+		temp_color = get_intersection(obj, escena->cam->pos, ray_dir,
+				&temp_dist);
 		if (temp_dist < min_dist)
 		{
 			min_dist = temp_dist;
@@ -88,6 +91,7 @@ int	check_coll(float px, float py, t_scene *escena)
 
 void	calculate_image(mlx_image_t *image, t_scene *escena)
 {
+	t_object		*obj;
 	float			screen_x;
 	float			screen_y;
 	unsigned int	px;
@@ -95,6 +99,7 @@ void	calculate_image(mlx_image_t *image, t_scene *escena)
 
 	px = 0;
 	py = 0;
+	obj = escena->objects;
 	while (py < image->height)
 	{
 		while (px < image->width)
@@ -102,7 +107,7 @@ void	calculate_image(mlx_image_t *image, t_scene *escena)
 			screen_x = (2.0f * px) / image->width - 1.0f;
 			screen_y = 1.0f - (2.0f * py) / image->height;
 			mlx_put_pixel(image, px, py, check_coll(screen_x, screen_y,
-					escena));
+					escena, obj));
 			px++;
 		}
 		px = 0;
@@ -111,35 +116,35 @@ void	calculate_image(mlx_image_t *image, t_scene *escena)
 }
 
 /*
-void calculate_image(mlx_image_t *image, t_scene *escena)
+void	calculate_image(mlx_image_t *image, t_scene *escena)
 {
-    float aspect_ratio = (float)image->width / (float)image->height;
-    float fov_rad = escena->cam->fov * (M_PI / 180.0f);
-    float scale = tanf(fov_rad / 2.0f);
+	float aspect_ratio = (float)image->width / (float)image->height;
+	float fov_rad = escena->cam->fov * (M_PI / 180.0f);
+	float scale = tanf(fov_rad / 2.0f);
 
-    unsigned int px, py;
+	unsigned int px, py;
 
-    for (py = 0; py < image->height; py++)
-    {
-        for (px = 0; px < image->width; px++)
-        {
-            float px_ndc = (px + 0.5f) / image->width;
-            float py_ndc = (py + 0.5f) / image->height;
+	for (py = 0; py < image->height; py++)
+	{
+		for (px = 0; px < image->width; px++)
+		{
+			float px_ndc = (px + 0.5f) / image->width;
+			float py_ndc = (py + 0.5f) / image->height;
 
-            float px_camera = (2.0f * px_ndc - 1.0f) * aspect_ratio * scale;
-            float py_camera = (1.0f - 2.0f * py_ndc) * scale;
+			float px_camera = (2.0f * px_ndc - 1.0f) * aspect_ratio * scale;
+			float py_camera = (1.0f - 2.0f * py_ndc) * scale;
 
-            unsigned int color = check_coll(px_camera, py_camera, escena);
-            mlx_put_pixel(image, px, py, color);
-        }
-    }
+			unsigned int color = check_coll(px_camera, py_camera, escena);
+			mlx_put_pixel(image, px, py, color);
+		}
+	}
 }*/
 
 int	main(int argc, char **argv)
 {
-	mlx_t *mlx;
-	mlx_image_t *image;
-	t_scene *escena;
+	mlx_t 		*mlx;
+	mlx_image_t	*image;
+	t_scene		*escena;
 
 	escena = harcoding();
 	(void)argc;
@@ -162,8 +167,8 @@ int	main(int argc, char **argv)
 		perror(mlx_strerror(mlx_errno));
 		return (1);
 	}
+	mlx_key_hook(mlx, key_hook, mlx);
 	mlx_loop(mlx);
-	key_hook(mlx);
 	mlx_terminate(mlx);
 	return (0);
 }
