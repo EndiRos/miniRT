@@ -6,7 +6,7 @@
 /*   By: imugica- <imugica-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 13:16:46 by imugica-          #+#    #+#             */
-/*   Updated: 2025/05/15 12:54:31 by imugica-         ###   ########.fr       */
+/*   Updated: 2025/05/16 12:18:34 by imugica-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,8 @@
 #include <math.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include "get_next_line.h"
+#include "libft.h"
 
 typedef enum e_obj_type
 {
@@ -39,10 +41,12 @@ typedef struct s_RGB
 
 typedef struct s_camera
 {
-	t_Vector3		pos;
-	t_Vector3		rot;
-	double			fov;
-}					t_camera;
+	t_Vector3	pos;
+	t_Vector3	rot;
+	float		fov; //( M_PI / 180f )* FOV 
+	float		aspect_ratio;
+	float		scale; //tanf(fov/2.0f)
+}			t_camera;
 
 typedef struct s_light
 {
