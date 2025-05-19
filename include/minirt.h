@@ -6,7 +6,7 @@
 /*   By: imugica- <imugica-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 13:16:46 by imugica-          #+#    #+#             */
-/*   Updated: 2025/05/16 12:18:34 by imugica-         ###   ########.fr       */
+/*   Updated: 2025/05/19 13:22:12 by imugica-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,6 +109,13 @@ typedef struct s_scene
 	t_settings		*seting;
 }					t_scene;
 
+typedef struct s_Intersection
+{
+	float			min_dist;
+	unsigned int	min_color;
+	t_object		*object;
+}					t_Intersection;
+
 t_Vector3			vector_add(t_Vector3 a, t_Vector3 b);
 
 t_Vector3			vector_sub(t_Vector3 a, t_Vector3 b);
@@ -129,7 +136,11 @@ unsigned int		ray_plane_intersect(t_Vector3 ray_orig, t_Vector3 ray_dir,
 unsigned int		ray_cylinder_intersect(t_Vector3 ray_orig,
 						t_Vector3 ray_dir, t_cyl_prop cyl, float *t_out);
 
-unsigned int		rgb_to_rgba(t_RGB *rgb);
+unsigned int		rgb_to_rgba(t_RGB rgb);
+t_RGB				rgba_to_rgb(unsigned int color);
+
+t_Vector3			sphere_normal(t_sphere_prop *sphere, t_Vector3 point);
+t_Vector3			plane_normal(t_plane_prop *plane);
 
 t_scene				*harcoding(void);
 void				tocolor(t_RGB *vector, float r, float g, float b);

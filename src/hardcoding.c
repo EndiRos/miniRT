@@ -6,7 +6,7 @@
 /*   By: imugica- <imugica-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 12:05:47 by enetxeba          #+#    #+#             */
-/*   Updated: 2025/05/16 12:38:45 by imugica-         ###   ########.fr       */
+/*   Updated: 2025/05/19 14:15:40 by imugica-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ t_scene *harcoding(void)
     // ----- Light -----
     light = (t_light *)malloc(sizeof(t_light));
     tocolor(&light->color, 1.0f, 1.0f, 1.0f);     // White light
-    tovec(&light->pos, 0, 5, -5);                 // Above and behind camera
+    tovec(&light->pos, 3, 5, 1); 
     light->intensity = 1.0f;
     escena->light = light;
 
@@ -60,7 +60,7 @@ t_scene *harcoding(void)
     sphere->radius = 2.0f;
 
     t_material *sphere_mat = (t_material *)malloc(sizeof(t_material));
-    tocolor(&sphere_mat->difuse, 255, 170, 160);       // Red
+    tocolor(&sphere_mat->difuse, 255, 0, 0);       // Red
     tocolor(&sphere_mat->specular, 128, 128, 128);
     tocolor(&sphere_mat->reflexion, 0, 0, 0);
     tocolor(&sphere_mat->refraction, 0, 0, 0);
@@ -75,10 +75,11 @@ t_scene *harcoding(void)
 
     t_plane_prop *plane = (t_plane_prop *)malloc(sizeof(t_plane_prop));
     tovec(&plane->pos, 0, -2, 3.01);               // Plane 1 unit in front of sphere
-    tovec(&plane->normal, 0, 0, -1);           // Facing toward camera
+    tovec(&plane->normal, 0, 1, 0);           // Facing toward camera
 
     t_material *plane_mat = (t_material *)malloc(sizeof(t_material));
-    tocolor(&plane_mat->difuse, 70, 100, 90);         // Green
+    tocolor(&plane_mat->difuse, 50, 150, 90);    
+         // Green
     tocolor(&plane_mat->specular, 128, 128, 128);
     tocolor(&plane_mat->reflexion, 0, 0, 0);
     tocolor(&plane_mat->refraction, 0, 0, 0);
@@ -89,6 +90,12 @@ t_scene *harcoding(void)
     // Link objects: sphere -> plane
     sphere_obj->next = plane_obj;
     escena->objects = sphere_obj;
+
+    // ----- Ambient Light Settings -----
+    t_settings *settings = (t_settings *)malloc(sizeof(t_settings));
+    tocolor(&settings->ambient_col, (50 * 1.0f) , (50 * 1.0f), 50*1.0f);  // Yellow ambient light
+    settings->intensity = 1.0f;                    // You can adjust this intensity as needed
+    escena->seting = settings;
 
     return escena;
 }

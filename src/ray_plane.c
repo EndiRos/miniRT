@@ -19,7 +19,7 @@ unsigned int	ray_plane_intersect(t_Vector3 ray_orig, t_Vector3 ray_dir,
 	{
 		if (t_val < *t)
 			*t = t_val;
-		return (rgb_to_rgba(&plane.material->difuse));
+		return (rgb_to_rgba(plane.material->difuse));
 	}
 	return (255);
 }

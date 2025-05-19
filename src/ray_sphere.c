@@ -43,7 +43,7 @@ unsigned int	ray_sphere_intersect(t_Vector3 ray_orig, t_Vector3 ray_dir,
 	{
 		if (t1 < *t0)
 			*t0 = t1;
-		return (rgb_to_rgba(&sphere.material->difuse));
+		return (rgb_to_rgba(sphere.material->difuse));
 	}
 	return (255);
 }

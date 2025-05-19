@@ -87,7 +87,7 @@ unsigned int	ray_cylinder_intersect(t_Vector3 ray_orig, t_Vector3 ray_dir,
 	{
 		if (t < *t_out)
 			*t_out = t;
-		return (rgb_to_rgba(&cyl.material->difuse));
+		return (rgb_to_rgba(cyl.material->difuse));
 	}
 	return (255);
 }
