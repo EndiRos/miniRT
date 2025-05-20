@@ -3,12 +3,13 @@
 unsigned int	ray_plane_intersect(t_Vector3 ray_orig, t_Vector3 ray_dir,
 		t_plane_prop plane, float *t)
 {
-	float t_val;
-	float denominator;
-	int res;
+	t_Vector3	n;
+	float		t_val;
+	float		denominator;
+	int			res;
 
 	res = 1;
-	t_Vector3 n = vector_normalize(plane.normal);
+	n = vector_normalize(plane.normal);
 	denominator = vector_dot(ray_dir, n);
 	if (fabsf(denominator) < 1e-6)
 		return (0);

@@ -6,7 +6,7 @@
 /*   By: imugica- <imugica-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 12:05:47 by enetxeba          #+#    #+#             */
-/*   Updated: 2025/05/19 14:15:40 by imugica-         ###   ########.fr       */
+/*   Updated: 2025/05/20 11:24:09 by imugica-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,8 +39,8 @@ t_scene *harcoding(void)
     // ----- Camera -----
     cam = (t_camera *)malloc(sizeof(t_camera));
     cam->fov = 60.0f;
-    tovec(&cam->pos, 0, 0, 0);         // Camera at origin
-    tovec(&cam->rot, 0, 0, 0);         // Looking along +Z
+    tovec(&cam->pos, 0, 0, -10);
+    tovec(&cam->rot, 0, 0, 1); // 90 degrees pitch to look down
     escena->cam = cam;
 
     // ----- Light -----

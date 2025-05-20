@@ -74,7 +74,7 @@ int	cyl_top_bot_coll(t_Vector3 ray_orig, t_Vector3 ray_dir, t_cyl_prop cyl,
 unsigned int	ray_cylinder_intersect(t_Vector3 ray_orig, t_Vector3 ray_dir,
 		t_cyl_prop cyl, float *t_out)
 {
-	int	res;
+	int		res;
 	float	t;
 
 	if (!cyl_quadratic(ray_orig, ray_dir, cyl, &t))

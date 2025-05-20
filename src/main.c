@@ -6,7 +6,7 @@
 /*   By: imugica- <imugica-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 13:16:36 by imugica-          #+#    #+#             */
-/*   Updated: 2025/05/19 14:30:12 by imugica-         ###   ########.fr       */
+/*   Updated: 2025/05/20 11:39:22 by imugica-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,38 +63,47 @@ unsigned int	get_intersection(t_object *obj, t_Vector3 ray_origin,
 	return (color);
 }
 
-int check_light(t_object *scene, t_Vector3 cam_origin, t_Vector3 ray_dir, float min_dist, t_Vector3 light_pos)
+int	check_light(t_object *scene, t_Vector3 cam_origin, t_Vector3 ray_dir,
+		float min_dist, t_Vector3 light_pos)
 {
-	t_Vector3 intersection_point = vector_add(cam_origin, vector_scale(ray_dir, min_dist));
-	t_Vector3 light_dir = vector_sub(light_pos, intersection_point);
-	float light_distance = vector_magnitude(light_dir);
-	light_dir = vector_normalize(light_dir);
+	t_Vector3	intersection_point;
+	t_Vector3	light_dir;
+	float		light_distance;
+	t_object	*obj;
+	float		shadow_dist;
 
-	t_object *obj = scene;
+	intersection_point = vector_add(cam_origin, vector_scale(ray_dir,
+				min_dist));
+	light_dir = vector_sub(light_pos, intersection_point);
+	light_distance = vector_magnitude(light_dir);
+	light_dir = vector_normalize(light_dir);
+	obj = scene;
 	while (obj)
 	{
-		float shadow_dist = FLT_MAX;
+		shadow_dist = FLT_MAX;
 		get_intersection(obj, intersection_point, light_dir, &shadow_dist);
 		if (shadow_dist > 0.001f && shadow_dist < light_distance)
 		{
-			return 0;
+			return (0);
 		}
 		obj = obj->next;
 	}
-	return 1;
+	return (1);
 }
 
-unsigned int color_merge(unsigned int min_color, t_RGB ambient)
+unsigned int	color_merge(unsigned int min_color, t_RGB ambient)
 {
-	t_RGB base_rgb = rgba_to_rgb(min_color);
+	t_RGB	base_rgb;
+
+	base_rgb = rgba_to_rgb(min_color);
 	base_rgb.r = (base_rgb.r * ambient.r) / 255;
 	base_rgb.g = (base_rgb.g * ambient.g) / 255;
 	base_rgb.b = (base_rgb.b * ambient.b) / 255;
-
-	return(rgb_to_rgba(base_rgb));
+	return (rgb_to_rgba(base_rgb));
 }
 
-void	set_inter(t_Intersection	*inter, float dist, unsigned int color, t_object *obj)
+void	set_inter(t_Intersection *inter, float dist, unsigned int color,
+		t_object *obj)
 {
 	inter->min_dist = dist;
 	inter->min_color = color;
@@ -103,37 +112,41 @@ void	set_inter(t_Intersection	*inter, float dist, unsigned int color, t_object *
 
 unsigned int	shade(t_Intersection inter, t_Vector3 ray_dir, t_scene *escena)
 {
-	t_Vector3 hit_point;
-	t_Vector3 normal;
-	t_RGB base_rgb;
-	float diffuse;
-	
-	hit_point = vector_add(escena->cam->pos, vector_scale(ray_dir, inter.min_dist));
+	t_Vector3	hit_point;
+	t_Vector3	normal;
+	t_RGB		base_rgb;
+	float		diffuse;
+
+	hit_point = vector_add(escena->cam->pos, vector_scale(ray_dir,
+				inter.min_dist));
 	if (inter.object->obj_type == SPHERE)
-    	normal = sphere_normal((t_sphere_prop *)inter.object->props, hit_point);
+		normal = sphere_normal((t_sphere_prop *)inter.object->props, hit_point);
 	else if (inter.object->obj_type == PLANE)
-    	normal = plane_normal((t_plane_prop *)inter.object->props);
+		normal = plane_normal((t_plane_prop *)inter.object->props);
 	else
-    	normal = (t_Vector3){0, 0, 1};
-	diffuse = fmaxf(0.0f, vector_dot(normal, vector_normalize(vector_sub(escena->light->pos, hit_point))));
+		normal = (t_Vector3){0, 0, 1};
+	diffuse = fmaxf(0.0f, vector_dot(normal,
+				vector_normalize(vector_sub(escena->light->pos, hit_point))));
 	diffuse *= escena->light->intensity;
 	base_rgb = rgba_to_rgb(inter.min_color);
-	base_rgb.r = fminf(base_rgb.r * diffuse + escena->seting->ambient_col.r, 255);
-	base_rgb.g = fminf(base_rgb.g * diffuse + escena->seting->ambient_col.g, 255);
-	base_rgb.b = fminf(base_rgb.b * diffuse + escena->seting->ambient_col.b, 255);
-	return rgb_to_rgba(base_rgb);
+	base_rgb.r = fminf(base_rgb.r * diffuse + escena->seting->ambient_col.r,
+			255);
+	base_rgb.g = fminf(base_rgb.g * diffuse + escena->seting->ambient_col.g,
+			255);
+	base_rgb.b = fminf(base_rgb.b * diffuse + escena->seting->ambient_col.b,
+			255);
+	return (rgb_to_rgba(base_rgb));
 }
 
-int	check_coll(float px, float py, t_scene *escena, t_object	*obj)
+int	check_coll(t_Vector3 ray_dir, t_scene *escena, t_object *obj)
 {
-	t_Vector3		ray_dir;
 	t_Intersection	inter;
 	float			temp_dist;
 	unsigned int	temp_color;
 
-	ray_dir = vector_normalize((t_Vector3){px, py, 1});
 	inter.min_dist = FLT_MAX;
 	inter.min_color = 0;
+	inter.object = NULL;
 	while (obj)
 	{
 		temp_dist = FLT_MAX;
@@ -145,16 +158,45 @@ int	check_coll(float px, float py, t_scene *escena, t_object	*obj)
 		}
 		obj = obj->next;
 	}
-	inter.min_color = shade(inter, ray_dir, escena);
-	if (!check_light(escena->objects, escena->cam->pos, ray_dir, inter.min_dist, escena->light->pos))
-		inter.min_color = color_merge(inter.min_color, escena->seting->ambient_col);
-	inter.min_color = shade(inter, ray_dir, escena);
+	if (!check_light(escena->objects, escena->cam->pos, ray_dir, inter.min_dist,
+			escena->light->pos))
+		inter.min_color = color_merge(inter.min_color,
+				escena->seting->ambient_col);
+	if (inter.object)
+		inter.min_color = shade(inter, ray_dir, escena);
 	return (inter.min_color);
+}
+
+t_Vector3	rotate_vector(t_Vector3 v, t_Vector3 rot)
+{
+	t_Vector3	sin;
+	t_Vector3	cos;
+	t_Vector3	v1;
+	t_Vector3	v2;
+	t_Vector3	v3;
+
+	tovec(&sin, sinf(rot.x), sinf(rot.y), sinf(rot.z));
+	tovec(&cos, cosf(rot.x), cosf(rot.y), cosf(rot.z));
+	tovec(&v1, v.x, v.y * cos.x - v.z * sin.x, v.y * sin.x + v.z * cos.x);
+	tovec(&v2, v1.x * cos.y + v1.z * sin.y, v1.y, -v1.x * sin.y + v1.z * cos.y);
+	tovec(&v3, v2.x * cos.z - v2.y * sin.z, v2.x * sin.z + v2.y * cos.z, v2.z);
+	return (v3);
+}
+
+t_Vector3	create_cam_ray(float px_camera, float py_camera, t_scene *escena)
+{
+	t_Vector3	ray_cam_dir;
+	t_Vector3	ray_world_dir;
+
+	tovec(&ray_cam_dir, px_camera, py_camera, 1.0f);
+	ray_world_dir = rotate_vector(ray_cam_dir, escena->cam->rot);
+	ray_world_dir = vector_normalize(ray_world_dir);
+	return (ray_world_dir);
 }
 
 void	calculate_image(mlx_image_t *image, t_scene *escena)
 {
-    unsigned int	px;
+	unsigned int	px;
 	unsigned int	py;
 	unsigned int	color;
 	float			px_camera;
@@ -163,20 +205,23 @@ void	calculate_image(mlx_image_t *image, t_scene *escena)
 	px = 0;
 	py = 0;
 	escena->cam->aspect_ratio = (float)image->width / (float)image->height;
-    escena->cam->fov = escena->cam->fov * (M_PI / 180.0f);
-    escena->cam->scale = tanf(escena->cam->fov / 2.0f);
-    while (py < image->height)
-    {
-        while (px < image->width)
-        {
-            px_camera = (2.0f * (px + 0.5f) / image->width - 1.0f) * escena->cam->aspect_ratio * escena->cam->scale;
-        	py_camera = (1.0f - 2.0f * (py + 0.5f) / image->height) * escena->cam->scale;
-            color = check_coll(px_camera, py_camera, escena, escena->objects);
-            mlx_put_pixel(image, px++, py, color);
-        }
+	escena->cam->fov = escena->cam->fov * (M_PI / 180.0f);
+	escena->cam->scale = tanf(escena->cam->fov / 2.0f);
+	while (py < image->height)
+	{
+		while (px < image->width)
+		{
+			px_camera = (2.0f * (px + 0.5f) / image->width - 1.0f)
+				* escena->cam->aspect_ratio * escena->cam->scale;
+			py_camera = (1.0f - 2.0f * (py + 0.5f) / image->height)
+				* escena->cam->scale;
+			color = check_coll(create_cam_ray(px_camera, py_camera, escena),
+					escena, escena->objects);
+			mlx_put_pixel(image, px++, py, color);
+		}
 		px = 0;
 		py++;
-    }
+	}
 }
 
 int	main(int argc, char **argv)
