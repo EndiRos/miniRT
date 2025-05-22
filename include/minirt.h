@@ -6,7 +6,7 @@
 /*   By: imugica- <imugica-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 13:16:46 by imugica-          #+#    #+#             */
-/*   Updated: 2025/05/20 11:27:38 by imugica-         ###   ########.fr       */
+/*   Updated: 2025/05/22 11:01:29 by imugica-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,6 +116,15 @@ typedef struct s_Intersection
 	t_object		*object;
 }					t_Intersection;
 
+typedef struct s_shade
+{
+	t_Vector3		hit_point;
+	t_Vector3		normal;
+	t_Vector3		light_dir;
+	t_Vector3		view_dir;
+	t_Vector3		reflected;
+}					t_shade;
+
 t_Vector3			vector_add(t_Vector3 a, t_Vector3 b);
 
 t_Vector3			vector_sub(t_Vector3 a, t_Vector3 b);
@@ -141,6 +150,7 @@ t_RGB				rgba_to_rgb(unsigned int color);
 
 t_Vector3			sphere_normal(t_sphere_prop *sphere, t_Vector3 point);
 t_Vector3			plane_normal(t_plane_prop *plane);
+t_Vector3			cylinder_normal(t_cyl_prop *cyl, t_Vector3 point);
 
 t_scene				*harcoding(void);
 void				tocolor(t_RGB *vector, float r, float g, float b);
