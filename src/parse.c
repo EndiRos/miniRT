@@ -6,7 +6,7 @@
 /*   By: enetxeba <enetxeba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 09:10:06 by enetxeba          #+#    #+#             */
-/*   Updated: 2025/05/22 12:39:08 by enetxeba         ###   ########.fr       */
+/*   Updated: 2025/05/22 13:33:10 by enetxeba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,7 +129,14 @@ int setambient(t_scene *scene, char  **line_split, int *error)
 }
 void set_pos(t_Vector3 *pos, char **pos_a)
 {
-    pos->x = ft_atof (pos_a[0]);
+    pos->x = ft_atof(pos_a[0]);
+    pos->y = ft_atof(pos_a[1]);
+    pos->z = ft_atof(pos_a[2]);
+}
+
+void set_rot(t_Vector3 *pos, char **pos_a)
+{
+    pos->x = ft_atof(pos_a[0]);
     pos->y = ft_atof(pos_a[2]);
     pos->z = ft_atof(pos_a[1]);
 }
@@ -148,7 +155,7 @@ int setcamera(t_scene *scene,char **line_split, int *error)
     tmp = ft_split(line_split[i++], ',');
     if (valid_fff(tmp))
         return (*error = 1, 1);
-    set_pos(scene->cam->rot, tmp);
+    set_rot(scene->cam->rot, tmp);
     scene->cam->fov = (M_PI / 180.0f) * ft_atof(line_split[i++]);
     scene->cam->scale = tanf(scene->cam->fov / 2.0f);
     return (0);
@@ -206,7 +213,7 @@ int setplane(t_scene **scene, char **line_split, int *error)
     tmp = ft_split(line_split[i++], ',');
     if (valid_fff(tmp))
         return (*error = 1, 1);
-    set_pos(props->rot , tmp);
+    set_rot(props->rot , tmp);
     tmp = ft_split(line_split[i++], ',');
     if (valid_iii(tmp))
         return (*error = 1, 1);
@@ -282,7 +289,7 @@ int setcylinder(t_scene **scene, char **line_split, int *error)
     tmp = ft_split(line_split[i++], ',');
     if (valid_fff(tmp))
         return (*error = 1, 1);
-    set_pos(props->rot, tmp);
+    set_rot(props->rot, tmp);
     if (is_float_array(line_split[i]))
         return (*error = 1, 1);
     props->radius = ft_atof(line_split[i++]);

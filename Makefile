@@ -1,5 +1,5 @@
 CC = cc 
-FLAGS = -Werror -Wall -Wextra
+FLAGS = -Werror -Wall -Wextra -g
 SRC_DIR = src
 INCLUDE = -Iinclude
 LIB_DIR = lib
@@ -14,7 +14,7 @@ OBJS = $(SRC:.c=.o)
 all: $(NAME)
 
 $(NAME): $(OBJS)
-	$(CC) $(FLAGS) $(OBJS) $(INCLUDE) $(MLX_A) -o $(NAME)  $(MLX_FLAG) $(LIBFT) $(GNL) -g
+	$(CC) $(FLAGS) $(OBJS) $(INCLUDE) $(MLX_A) -o $(NAME)  $(MLX_FLAG) $(LIBFT) $(GNL)
 
 %.o: %.c
 	$(CC) $(FLAGS) $(INCLUDE) -c $< -o $@
