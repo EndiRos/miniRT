@@ -6,7 +6,7 @@
 /*   By: imugica- <imugica-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 13:16:36 by imugica-          #+#    #+#             */
-/*   Updated: 2025/05/22 12:00:15 by imugica-         ###   ########.fr       */
+/*   Updated: 2025/05/22 12:49:44 by imugica-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -246,8 +246,8 @@ void	calculate_image(mlx_image_t *image, t_scene *escena)
 	px = 0;
 	py = 0;
 	escena->cam->aspect_ratio = (float)image->width / (float)image->height;
-	escena->cam->fov = escena->cam->fov * (M_PI / 180.0f);
-	escena->cam->scale = tanf(escena->cam->fov / 2.0f);
+	//escena->cam->fov = escena->cam->fov * (M_PI / 180.0f);
+	//escena->cam->scale = tanf(escena->cam->fov / 2.0f);
 	while (py < image->height)
 	{
 		while (px < image->width)
@@ -276,12 +276,12 @@ int	main(int argc, char **argv)
     escena = (t_scene *) malloc (sizeof (t_scene));
     parse(escena, argv[1]);
 	(void)argc;
-	if (!(mlx = mlx_init(1600, 1200, "tXuperRT", true)))
+	if (!(mlx = mlx_init(1920, 1080, "tXuperRT", true)))
 	{
 		perror(mlx_strerror(mlx_errno));
 		return (1);
 	}
-	if (!(image = mlx_new_image(mlx, 1600, 1200)))
+	if (!(image = mlx_new_image(mlx, 1920, 1080)))
 	{
 		mlx_close_window(mlx);
 		perror(mlx_strerror(mlx_errno));
