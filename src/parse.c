@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: enetxeba <enetxeba@student.42.fr>          +#+  +:+       +#+        */
+/*   By: imugica- <imugica-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 09:10:06 by enetxeba          #+#    #+#             */
-/*   Updated: 2025/05/22 11:23:55 by enetxeba         ###   ########.fr       */
+/*   Updated: 2025/05/22 12:03:47 by imugica-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ float   ft_atof(char *n)
     if (n[i] == '-')
     {
         m = -m;
-        i++;""
+        i++;
     }
     while (n[i] && n[i] != '\n')
     {
@@ -53,11 +53,11 @@ int array_len(char **array)
     return (c);
 }
 
-void set_color(t_RGB *color,char **col_num, float intesity)
+void set_color(t_RGB *color,char **col_num)
 {
-    color->r = (ft_atoi (col_num[0])/ 255) * intesity;
-    color->g = (ft_atoi (col_num[1]) / 255)* intesity;
-    color->b = (ft_atoi (col_num[2]) / 255 )* intesity;
+    color->r = (ft_atoi (col_num[0]));
+    color->g = (ft_atoi (col_num[1]));
+    color->b = (ft_atoi (col_num[2]));
 }
 
 int is_float_array(char  *str)
@@ -124,7 +124,7 @@ int setambient(t_scene *scene, char  **line_split, int *error)
     color = ft_split(line_split[i], ',');
     if (valid_iii(color))
         return (*error = 1, 1);    
-    set_color(scene->seting->ambient_col, color, intensity);
+    set_color(scene->seting->ambient_col, color);
     return (0);
 }
 void set_pos(t_Vector3 *pos, char **pos_a)
@@ -173,7 +173,7 @@ int setlight(t_scene **scene,char **line_split, int *error)
     tmp = ft_split(line_split[i++], ',');
     if (valid_iii(tmp))
         return (*error = 1, 1);
-    set_color(light->color,tmp, 1.0f );
+    set_color(light->color,tmp );
     if (!(*scene)->light)
     { 
         (*scene)->light = light;
@@ -210,7 +210,7 @@ int setplane(t_scene **scene, char **line_split, int *error)
     tmp = ft_split(line_split[i++], ',');
     if (valid_iii(tmp))
         return (*error = 1, 1);
-    set_color(props->material->difuse, tmp, 1.0f );
+    set_color(props->material->difuse, tmp );
     obj->next = NULL;
     obj->props = props;
     
@@ -248,7 +248,7 @@ int setsphere(t_scene **scene, char **line_split, int *error)
     tmp = ft_split(line_split[i++], ',');
     if (valid_iii(tmp))
         return (*error = 1, 1);
-    set_color(props->material->difuse, tmp, 1.0f );
+    set_color(props->material->difuse, tmp );
     obj->props = props;
     obj->next = NULL;
     if (!(*scene)->objects)
@@ -292,7 +292,7 @@ int setcylinder(t_scene **scene, char **line_split, int *error)
     tmp = ft_split(line_split[i++], ',');
     if (valid_iii(tmp))
         return (*error = 1, 1);
-    set_color(props->material->difuse, tmp, 1.0f );
+    set_color(props->material->difuse, tmp );
     obj->props = props;
     obj->next = NULL;
     if (!(*scene)->objects)
@@ -351,7 +351,7 @@ void parse(t_scene *scene, char *file)
 		line = get_next_line(fd);
 	}
 }
-
+/*
 int main (int argc, char **argv)
 {
     t_scene *escena;
@@ -362,4 +362,4 @@ int main (int argc, char **argv)
     free_escena(&escena);
     stop = 0;
 }
-
+*/

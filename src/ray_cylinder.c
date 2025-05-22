@@ -8,8 +8,8 @@ int	cyl_quadratic(t_Vector3 ray_orig, t_Vector3 ray_dir, t_cyl_prop cyl,
 	t_Vector3	d_cross_v;
 	t_Vector3	oc_cross_v;
 
-	ca = vector_normalize(cyl.rot);
-	oc = vector_sub(ray_orig, cyl.pos);
+	ca = vector_normalize(*cyl.rot);
+	oc = vector_sub(ray_orig, *cyl.pos);
 	d_cross_v = vector_sub(ray_dir, vector_scale(ca, vector_dot(ray_dir, ca)));
 	oc_cross_v = vector_sub(oc, vector_scale(ca, vector_dot(oc, ca)));
 	if (!quadratic(vector_dot(d_cross_v, d_cross_v), 2.0f
@@ -31,8 +31,8 @@ int	cyl_face_coll(t_Vector3 ray_orig, t_Vector3 ray_dir, t_cyl_prop cyl,
 	half_height = cyl.height * 0.5f;
 	epsilon = 1e-4f;
 	p = vector_add(ray_orig, vector_scale(ray_dir, *t_out));
-	pc = vector_sub(p, cyl.pos);
-	proj = vector_dot(pc, cyl.rot);
+	pc = vector_sub(p, *cyl.pos);
+	proj = vector_dot(pc, *cyl.rot);
 	if (proj >= -half_height - epsilon && proj <= half_height + epsilon)
 		return (1);
 	return (0);
@@ -51,13 +51,13 @@ int	cyl_top_bot_coll(t_Vector3 ray_orig, t_Vector3 ray_dir, t_cyl_prop cyl,
 	epsilon = 1e-4f;
 	for (i = 0; i < 2; i++)
 	{
-		cap_center = vector_add(cyl.pos, vector_scale(cyl.rot, (i == 0 ?
+		cap_center = vector_add(*cyl.pos, vector_scale(*cyl.rot, (i == 0 ?
 						-0.5f : 0.5f) * cyl.height));
 		oc_to_cap = vector_sub(cap_center, ray_orig);
-		denom = vector_dot(ray_dir, cyl.rot);
+		denom = vector_dot(ray_dir, *cyl.rot);
 		if (fabsf(denom) < 1e-6f)
 			continue ;
-		t = vector_dot(oc_to_cap, cyl.rot) / denom;
+		t = vector_dot(oc_to_cap, *cyl.rot) / denom;
 		if (t < 0.001f || t >= best_t)
 			continue ;
 		p_cap = vector_add(ray_orig, vector_scale(ray_dir, t));
@@ -101,7 +101,7 @@ unsigned int	ray_cylinder_intersect(t_Vector3 ray_orig, t_Vector3 ray_dir,
 	if (hit)
 	{
 		*t_out = best_t;
-		return (rgb_to_rgba(cyl.material->difuse));
+		return (rgb_to_rgba(*cyl.material->difuse));
 	}
 	return (255);
 }

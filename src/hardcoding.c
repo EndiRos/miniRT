@@ -6,24 +6,13 @@
 /*   By: imugica- <imugica-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 12:05:47 by enetxeba          #+#    #+#             */
-/*   Updated: 2025/05/21 13:58:41 by imugica-         ###   ########.fr       */
+/*   Updated: 2025/05/22 11:52:14 by imugica-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
 
-void	tovec(t_Vector3 *vector, double x, double y ,double z)
-{
-	vector->x = x;
-	vector->y = y;
-	vector->z = z;
-}
-void	tocolor(t_RGB *vector, float r, float g ,float b)
-{
-	vector->r = r;
-	vector->g = g;
-	vector->b = b;
-}
+
 
 t_scene *harcoding(void)
 {

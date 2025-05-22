@@ -6,7 +6,7 @@
 /*   By: imugica- <imugica-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 11:18:17 by enetxeba          #+#    #+#             */
-/*   Updated: 2025/05/20 11:44:37 by imugica-         ###   ########.fr       */
+/*   Updated: 2025/05/22 11:43:46 by imugica-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,9 +30,9 @@ unsigned int	rgb_to_rgba(t_RGB rgb)
 	unsigned int	a;
 	unsigned int	color;
 
-	r = (rgb.r & 0xFF) << 24;
-	g = (rgb.g & 0xFF) << 16;
-	b = (rgb.b & 0xFF) << 8;
+	r = ((int)rgb.r & 0xFF) << 24;
+	g = ((int)rgb.g & 0xFF) << 16;
+	b = ((int)rgb.b & 0xFF) << 8;
 	a = 0xFF;
 	color = r | g | b | a;
 	return (color);

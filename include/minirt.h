@@ -6,7 +6,7 @@
 /*   By: imugica- <imugica-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 13:16:46 by imugica-          #+#    #+#             */
-/*   Updated: 2025/05/22 11:35:52 by imugica-         ###   ########.fr       */
+/*   Updated: 2025/05/22 11:54:00 by imugica-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,6 @@
 #include <math.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include "get_next_line.h"
-#include "libft.h"
 
 typedef enum e_obj_type
 {
@@ -36,36 +34,36 @@ typedef struct s_Vector3
 
 typedef struct s_RGB
 {
-	float	r;
-	float	g;
-	float	b;
-}			t_RGB;
+	float			r;
+	float			g;
+	float			b;
+}					t_RGB;
 
 typedef struct s_camera
 {
-	t_Vector3	*pos;
-	t_Vector3	*rot;
-	float		fov; //( M_PI / 180f )* FOV 
-	float		aspect_ratio;
-	float		scale; //tanf(fov/2.0f)
-}			t_camera;
+	t_Vector3		*pos;
+	t_Vector3		*rot;
+	float fov; //( M_PI / 180f )* FOV
+	float			aspect_ratio;
+	float scale; // tanf(fov/2.0f)
+}					t_camera;
 
 typedef struct s_light
 {
 	t_Vector3		*pos;
 	t_RGB			*color;
 	float			intensity;
-	struct s_light *next;
-}				t_light;
+	struct s_light	*next;
+}					t_light;
 
 typedef struct s_material
 {
-	t_RGB	*difuse;
-	t_RGB	*specular;
-	t_RGB	*reflexion;
-	t_RGB	*refraction;
-	float	IOR;
-}			t_material;
+	t_RGB			*difuse;
+	t_RGB			*specular;
+	t_RGB			*reflexion;
+	t_RGB			*refraction;
+	float			IOR;
+}					t_material;
 
 typedef struct s_cyl_prop
 {
@@ -100,10 +98,9 @@ typedef struct s_object
 
 typedef struct s_settings
 {
+	t_RGB			*ambient_col;
 
-	t_RGB		*ambient_col;
-	
-}			t_settings;
+}					t_settings;
 
 typedef struct s_scene
 {
@@ -161,30 +158,29 @@ void				tocolor(t_RGB *vector, float r, float g, float b);
 void				tovec(t_Vector3 *vector, double x, double y, double z);
 void				calculate_image(mlx_image_t *image, t_scene *escena);
 
-
 /// free.c todos los frees de la esttructura
 
-void 	free_stting(t_scene *scene);
-void 	free_pos(t_Vector3 *pos);
-void 	free_rgb(t_RGB *col);
-void	free_material (t_material *mat);
-void	free_sphere(t_sphere_prop *props);
-void	free_plane(t_plane_prop *props);
-void	free_cylinder(t_cyl_prop *props);
-void 	free_obj(t_scene *scene);
-void 	free_light(t_scene *scene);
-void 	free_cam(t_scene *scene);
-void 	free_escena(t_scene **scene);
-
+void				free_stting(t_scene *scene);
+void				free_pos(t_Vector3 *pos);
+void				free_rgb(t_RGB *col);
+void				free_material(t_material *mat);
+void				free_sphere(t_sphere_prop *props);
+void				free_plane(t_plane_prop *props);
+void				free_cylinder(t_cyl_prop *props);
+void				free_obj(t_scene *scene);
+void				free_light(t_scene *scene);
+void				free_cam(t_scene *scene);
+void				free_escena(t_scene **scene);
 
 /// reserve.c
 
 void				reserve_ambient(t_scene *scene, int *error);
-void 				reserve_cam(t_scene *scene, int *error);
-t_light 			*reserve_light();
-t_object			*reserve_obj();
-t_sphere_prop 		*reserve_sphere(int *error);
-t_plane_prop 		*reserve_plane(int *error);
-t_cyl_prop 			*reserve_cyl(int *error);
+void				reserve_cam(t_scene *scene, int *error);
+t_light				*reserve_light(int *error);
+t_object			*reserve_obj(int *error);
+t_sphere_prop		*reserve_sphere(int *error);
+t_plane_prop		*reserve_plane(int *error);
+t_cyl_prop			*reserve_cyl(int *error);
 
 void				tovec(t_Vector3 *vector, double x, double y, double z);
+void				parse(t_scene *scene, char *file);

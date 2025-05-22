@@ -6,7 +6,7 @@
 /*   By: imugica- <imugica-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 13:16:36 by imugica-          #+#    #+#             */
-/*   Updated: 2025/05/22 11:11:03 by imugica-         ###   ########.fr       */
+/*   Updated: 2025/05/22 12:00:15 by imugica-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,20 @@ int	main(int c, char **args)
 	return (0);
 }
  */
+
+ void	tovec(t_Vector3 *vector, double x, double y ,double z)
+ {
+	 vector->x = x;
+	 vector->y = y;
+	 vector->z = z;
+ }
+ void	tocolor(t_RGB *vector, float r, float g ,float b)
+ {
+	 vector->r = r;
+	 vector->g = g;
+	 vector->b = b;
+ }
+
 void	key_hook(struct mlx_key_data keydata, void *param)
 {
 	mlx_t	*mlx;
@@ -123,9 +137,9 @@ unsigned int	compute_color(t_scene *escena, t_shade shading,
 	t_RGB base_rgb; //
 	float diffuse;  //
 	float specular; //
-	shading.light_dir = vector_normalize(vector_sub(escena->light->pos,
+	shading.light_dir = vector_normalize(vector_sub(*escena->light->pos,
 				shading.hit_point));
-	shading.view_dir = vector_normalize(vector_sub(escena->cam->pos,
+	shading.view_dir = vector_normalize(vector_sub(*escena->cam->pos,
 				shading.hit_point));
 	diffuse = fmaxf(0.0f, vector_dot(shading.normal, shading.light_dir))
 		* escena->light->intensity;
@@ -136,11 +150,11 @@ unsigned int	compute_color(t_scene *escena, t_shade shading,
 	specular *= escena->light->intensity * light;
 	base_rgb = rgba_to_rgb(inter.min_color);
 	base_rgb.r = fminf(base_rgb.r * diffuse + specular * 255.0f
-			+ escena->seting->ambient_col.r, 255);
+			+ escena->seting->ambient_col->r, 255);
 	base_rgb.g = fminf(base_rgb.g * diffuse + specular * 255.0f
-			+ escena->seting->ambient_col.g, 255);
+			+ escena->seting->ambient_col->g, 255);
 	base_rgb.b = fminf(base_rgb.b * diffuse + specular * 255.0f
-			+ escena->seting->ambient_col.b, 255);
+			+ escena->seting->ambient_col->b, 255);
 	return (rgb_to_rgba(base_rgb));
 }
 
@@ -149,7 +163,7 @@ unsigned int	shade(t_Intersection inter, t_Vector3 ray_dir, t_scene *escena,
 {
 	t_shade	shading;
 
-	shading.hit_point = vector_add(escena->cam->pos, vector_scale(ray_dir,
+	shading.hit_point = vector_add(*escena->cam->pos, vector_scale(ray_dir,
 				inter.min_dist));
 	shading.normal = vector_normalize((t_Vector3){0, 0, 1});
 	if (inter.object->obj_type == SPHERE)
@@ -178,17 +192,17 @@ int	check_coll(t_Vector3 ray_dir, t_scene *escena, t_object *obj)
 	while (obj)
 	{
 		temp_dist = FLT_MAX;
-		temp_color = get_intersection(obj, escena->cam->pos, ray_dir,
+		temp_color = get_intersection(obj, *escena->cam->pos, ray_dir,
 				&temp_dist);
 		if (temp_dist < inter.min_dist)
 			set_inter(&inter, temp_dist, temp_color, obj);
 		obj = obj->next;
 	}
-	light = check_light(escena->objects, escena->cam->pos, ray_dir,
-			inter.min_dist, escena->light->pos);
+	light = check_light(escena->objects, *escena->cam->pos, ray_dir,
+			inter.min_dist, *escena->light->pos);
 	if (!light)
 		inter.min_color = color_merge(inter.min_color,
-				escena->seting->ambient_col);
+				*escena->seting->ambient_col);
 	if (inter.object)
 		inter.min_color = shade(inter, ray_dir, escena, light);
 	return (inter.min_color);
@@ -216,7 +230,7 @@ t_Vector3	create_cam_ray(float px_camera, float py_camera, t_scene *escena)
 	t_Vector3	ray_world_dir;
 
 	tovec(&ray_cam_dir, px_camera, py_camera, 1.0f);
-	ray_world_dir = rotate_vector(ray_cam_dir, escena->cam->rot);
+	ray_world_dir = rotate_vector(ray_cam_dir, *escena->cam->rot);
 	ray_world_dir = vector_normalize(ray_world_dir);
 	return (ray_world_dir);
 }
@@ -257,9 +271,11 @@ int	main(int argc, char **argv)
 	mlx_image_t	*image;
 	t_scene		*escena;
 
-	escena = harcoding();
+	//escena = harcoding();
+    
+    escena = (t_scene *) malloc (sizeof (t_scene));
+    parse(escena, argv[1]);
 	(void)argc;
-	(void)argv;
 	if (!(mlx = mlx_init(1600, 1200, "tXuperRT", true)))
 	{
 		perror(mlx_strerror(mlx_errno));
