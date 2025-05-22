@@ -71,14 +71,23 @@ int	cyl_top_bot_coll(t_Vector3 ray_orig, t_Vector3 ray_dir, t_cyl_prop cyl,
 	return (0);
 }
 
-int	ray_cylinder_intersect(t_Vector3 ray_orig, t_Vector3 ray_dir,
+unsigned int	ray_cylinder_intersect(t_Vector3 ray_orig, t_Vector3 ray_dir,
 		t_cyl_prop cyl, float *t_out)
 {
-	if (!cyl_quadratic(ray_orig, ray_dir, cyl, t_out))
-		return (0);
-	if (cyl_face_coll(ray_orig, ray_dir, cyl, t_out))
-		return (1);
-	if (cyl_top_bot_coll(ray_orig, ray_dir, cyl, t_out))
-		return (1);
-	return (0);
+	int	res;
+	float	t;
+
+	if (!cyl_quadratic(ray_orig, ray_dir, cyl, &t))
+		res = 0;
+	if (cyl_face_coll(ray_orig, ray_dir, cyl, &t))
+		res = 1;
+	if (cyl_top_bot_coll(ray_orig, ray_dir, cyl, &t))
+		res = 1;
+	if (res)
+	{
+		if (t < *t_out)
+			*t_out = t;
+		return (rgb_to_rgba(cyl.material->difuse));
+	}
+	return (255);
 }
