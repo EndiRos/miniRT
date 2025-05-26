@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minirt.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: enetxeba <enetxeba@student.42.fr>          +#+  +:+       +#+        */
+/*   By: imugica- <imugica-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 13:16:46 by imugica-          #+#    #+#             */
-/*   Updated: 2025/05/22 13:02:03 by enetxeba         ###   ########.fr       */
+/*   Updated: 2025/05/26 12:55:22 by imugica-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -137,6 +137,8 @@ float				vector_magnitude(t_Vector3 v);
 t_Vector3			vector_normalize(t_Vector3 v);
 
 t_Vector3			vector_scale(t_Vector3 v, float scalar);
+
+t_Vector3			vector_cross(t_Vector3 a, t_Vector3 b);
 
 int					quadratic(float a, float b, float c, float *t0);
 unsigned int		ray_sphere_intersect(t_Vector3 ray_orig, t_Vector3 ray_dir,

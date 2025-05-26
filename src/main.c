@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: enetxeba <enetxeba@student.42.fr>          +#+  +:+       +#+        */
+/*   By: imugica- <imugica-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 13:16:36 by imugica-          #+#    #+#             */
-/*   Updated: 2025/05/26 10:40:58 by enetxeba         ###   ########.fr       */
+/*   Updated: 2025/05/26 12:54:32 by imugica-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -224,16 +224,32 @@ t_Vector3	rotate_vector(t_Vector3 v, t_Vector3 rot)
 	return (v3);
 }
 
-t_Vector3	create_cam_ray(float px_camera, float py_camera, t_scene *escena)
+t_Vector3 create_cam_ray(float px_camera, float py_camera, t_scene *escena)
 {
-	t_Vector3	ray_cam_dir;
-	t_Vector3	ray_world_dir;
+    t_Vector3 cam_forward = *escena->cam->rot;
+    t_Vector3 world_up = {0.0f, 1.0f, 0.0f};
+    t_Vector3 cam_right = vector_normalize(vector_cross(world_up, cam_forward));
+    t_Vector3 cam_up = vector_cross(cam_forward, cam_right);
 
-	tovec(&ray_cam_dir, px_camera, py_camera, 1.0f);
-	ray_world_dir = rotate_vector(ray_cam_dir, *escena->cam->rot);
-	ray_world_dir = vector_normalize(ray_world_dir);
-	return (ray_world_dir);
+    t_Vector3 ray_cam_dir = {
+        px_camera * escena->cam->aspect_ratio * escena->cam->scale,
+        py_camera * escena->cam->scale,
+        1.0f
+    };
+
+    t_Vector3 ray_world_dir = vector_normalize(
+        vector_add(
+            vector_add(
+                vector_scale(cam_right, ray_cam_dir.x),
+                vector_scale(cam_up, ray_cam_dir.y)
+            ),
+            vector_scale(cam_forward, ray_cam_dir.z)
+        )
+    );
+
+    return ray_world_dir;
 }
+
 
 void	calculate_image(mlx_image_t *image, t_scene *escena)
 {
@@ -271,9 +287,6 @@ int	main(int argc, char **argv)
 	mlx_image_t	*image;
 	t_scene		*escena;
 
-	//escena = harcoding();
-    
-	
     escena = (t_scene *) malloc (sizeof (t_scene));
 	ft_memset (escena, 0 , sizeof(t_scene));
     parse(escena, argv[1]);
