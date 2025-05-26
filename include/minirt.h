@@ -6,7 +6,7 @@
 /*   By: enetxeba <enetxeba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 13:16:46 by imugica-          #+#    #+#             */
-/*   Updated: 2025/05/26 12:56:13 by enetxeba         ###   ########.fr       */
+/*   Updated: 2025/05/26 13:17:04 by enetxeba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -213,7 +213,7 @@ t_RGB				rgba_to_rgb(unsigned int color);
 unsigned int		rgb_to_rgba(t_RGB rgb);
 unsigned int		color_merge(unsigned int min_color, t_RGB ambient);
 unsigned int		compute_color(t_scene *escena, t_shade shading, t_Intersection inter,\
-					 int light)
+					int light);
 
 //parse.c
 int					setlight(t_scene *scene,char **line_split, int *error);
@@ -228,7 +228,19 @@ int 				setsphere(t_scene **scene, char **line_split, int *error);
 int 				setcylinder(t_scene **scene, char **line_split, int *error);
 void 				parse(t_scene *scene, char *file);
 
+//parse_utils.c
+float				ft_atof(char *n);
+int					array_len(char **array);
+void				set_color(t_RGB *color,char **col_num);
+int					is_float_array(char  *str);
+int 				valid_iii(char **str);
 
+//parse_utils2.c
+void				set_pos(t_Vector3 *pos, char **pos_a);
+void 				set_rot(t_Vector3 *pos, char **pos_a);
+
+
+#endif
 
 
 
