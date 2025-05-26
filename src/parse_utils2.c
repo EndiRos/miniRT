@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parse_utils.c                                      :+:      :+:    :+:   */
+/*   parse_utils2.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: enetxeba <enetxeba@student.42.fr>          +#+  +:+       +#+        */
+/*   By: imugica- <imugica-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 09:10:06 by enetxeba          #+#    #+#             */
-/*   Updated: 2025/05/26 12:20:04 by enetxeba         ###   ########.fr       */
+/*   Updated: 2025/05/26 14:16:22 by imugica-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,16 +109,3 @@ int valid_fff(char **str)
     return (0);
 }
 
-void set_pos(t_Vector3 *pos, char **pos_a)
-{
-    pos->x = ft_atof(pos_a[0]);
-    pos->y = ft_atof(pos_a[1]);
-    pos->z = ft_atof(pos_a[2]);
-}
-
-void set_rot(t_Vector3 *pos, char **pos_a)
-{
-    pos->x = ft_atof(pos_a[0]);
-    pos->y = ft_atof(pos_a[1]);
-    pos->z = ft_atof(pos_a[2]);
-}

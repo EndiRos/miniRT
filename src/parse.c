@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: enetxeba <enetxeba@student.42.fr>          +#+  +:+       +#+        */
+/*   By: imugica- <imugica-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 09:10:06 by enetxeba          #+#    #+#             */
-/*   Updated: 2025/05/26 12:38:04 by enetxeba         ###   ########.fr       */
+/*   Updated: 2025/05/26 14:20:07 by imugica-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,8 +57,7 @@ void    add_light_scene(t_scene *scene, t_light *light)
     if (!scene->light)
     { 
         scene->light = light;
-        return (0);
-        
+        return ;
     }
     last_light = scene->light;
     while (last_light->next)
@@ -85,6 +84,6 @@ int setlight(t_scene *scene,char **line_split, int *error)
     if (valid_iii(tmp))
         return (*error = 1, 1);
     set_color(light->color,tmp );
-    add_light_scene(scene, light)
+    add_light_scene(scene, light);
     return (0);
 }

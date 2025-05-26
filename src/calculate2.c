@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   calculate2.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: enetxeba <enetxeba@student.42.fr>          +#+  +:+       +#+        */
+/*   By: imugica- <imugica-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 11:40:45 by enetxeba          #+#    #+#             */
-/*   Updated: 2025/05/26 11:45:52 by enetxeba         ###   ########.fr       */
+/*   Updated: 2025/05/26 14:28:16 by imugica-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,16 +32,32 @@ else if (inter.object->obj_type == CYLINDER)
 return (compute_color(escena, shading, inter, light));
 }
 
-t_Vector3	create_cam_ray(float px_camera, float py_camera, t_scene *escena)
+t_Vector3 create_cam_ray(float px_camera, float py_camera, t_scene *escena)
 {
-	t_Vector3	ray_cam_dir;
-	t_Vector3	ray_world_dir;
+    t_Vector3 cam_forward = *escena->cam->rot;
+    t_Vector3 world_up = {0.0f, 1.0f, 0.0f};
+    t_Vector3 cam_right = vector_normalize(vector_cross(world_up, cam_forward));
+    t_Vector3 cam_up = vector_cross(cam_forward, cam_right);
 
-	tovec(&ray_cam_dir, px_camera, py_camera, 1.0f);
-	ray_world_dir = rotate_vector(ray_cam_dir, *escena->cam->rot);
-	ray_world_dir = vector_normalize(ray_world_dir);
-	return (ray_world_dir);
+    t_Vector3 ray_cam_dir = {
+        px_camera * escena->cam->aspect_ratio * escena->cam->scale,
+        py_camera * escena->cam->scale,
+        1.0f
+    };
+
+    t_Vector3 ray_world_dir = vector_normalize(
+        vector_add(
+            vector_add(
+                vector_scale(cam_right, ray_cam_dir.x),
+                vector_scale(cam_up, ray_cam_dir.y)
+            ),
+            vector_scale(cam_forward, ray_cam_dir.z)
+        )
+    );
+
+    return ray_world_dir;
 }
+
 
 void	calculate_image(mlx_image_t *image, t_scene *escena)
 {
@@ -58,10 +74,8 @@ void	calculate_image(mlx_image_t *image, t_scene *escena)
 	{
 		while (px < image->width)
 		{
-			px_camera = (2.0f * (px + 0.5f) / image->width - 1.0f)
-				* escena->cam->aspect_ratio * escena->cam->scale;
-			py_camera = (1.0f - 2.0f * (py + 0.5f) / image->height)
-				* escena->cam->scale;
+			px_camera = (2.0f * (px + 0.5f) / image->width - 1.0f);
+			py_camera = (1.0f - 2.0f * (py + 0.5f) / image->height);
 			color = check_coll(create_cam_ray(px_camera, py_camera, escena),
 					escena, escena->objects);
 			mlx_put_pixel(image, px++, py, color);

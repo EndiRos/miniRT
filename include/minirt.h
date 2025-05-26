@@ -3,25 +3,24 @@
 /*                                                        :::      ::::::::   */
 /*   minirt.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: enetxeba <enetxeba@student.42.fr>          +#+  +:+       +#+        */
+/*   By: imugica- <imugica-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 13:16:46 by imugica-          #+#    #+#             */
-/*   Updated: 2025/05/26 13:35:57 by enetxeba         ###   ########.fr       */
+/*   Updated: 2025/05/26 14:16:59 by imugica-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# ifndef MINIRT_H
+#ifndef MINIRT_H
 # define MINIRT_H
 
-#include "MLX42/MLX42.h"
-#include "get_next_line.h"
-#include "libft.h"
-#include <float.h>
-#include <math.h>
-#include <stdio.h>
-#include <stdlib.h>
-# include <unistd.h>
+# include "MLX42/MLX42.h"
+# include "get_next_line.h"
 # include "libft.h"
+# include <float.h>
+# include <math.h>
+# include <stdio.h>
+# include <stdlib.h>
+# include <unistd.h>
 
 typedef enum e_obj_type
 {
@@ -180,69 +179,69 @@ void				free_escena(t_scene **scene);
 /// reserve.c
 
 t_material			*reserve_material(int *error);
-void 				reserve_ambient(t_scene *scene, int *error);
-void 				reserve_cam(t_scene *scene, int *error);
-t_light 			*reserve_light(int *error);
+void				reserve_ambient(t_scene *scene, int *error);
+void				reserve_cam(t_scene *scene, int *error);
+t_light				*reserve_light(int *error);
 
 /// reserve_obj.c
 t_object			*reserve_obj(int *error);
 t_plane_prop		*reserve_plane(int *error);
 t_sphere_prop		*reserve_sphere(int *error);
-t_cyl_prop			*reserve_cyl (int *error);
+t_cyl_prop			*reserve_cyl(int *error);
 
 /// reserve_utils.c
-t_RGB 				reserve_rgb(int *error);
+t_RGB*				reserve_rgb(int *error);
 t_Vector3			*reserve_vector(int *error);
 
 // calculate2.c
-unsigned int		shade(t_Intersection inter, t_Vector3 ray_dir, t_scene *escena,\
-					int light);
-t_Vector3			create_cam_ray(float px_camera, float py_camera, t_scene *escena);
+unsigned int		shade(t_Intersection inter, t_Vector3 ray_dir,
+						t_scene *escena, int light);
+t_Vector3			create_cam_ray(float px_camera, float py_camera,
+						t_scene *escena);
 void				calculate_image(mlx_image_t *image, t_scene *escena);
 
-//callculate.c
-unsigned int		get_intersection(t_object *obj, t_Vector3 ray_origin,\
-    				t_Vector3 ray_dir, float *dist);
-int					check_light(t_object *scene, t_Vector3 cam_origin, t_Vector3 ray_dir,\
-						float min_dist, t_Vector3 light_pos);
-void				set_inter(t_Intersection *inter, float dist, unsigned int color,
-							t_object *obj);
+// callculate.c
+unsigned int		get_intersection(t_object *obj, t_Vector3 ray_origin,
+						t_Vector3 ray_dir, float *dist);
+int					check_light(t_object *scene, t_Vector3 cam_origin,
+						t_Vector3 ray_dir, float min_dist, t_Vector3 light_pos);
+void				set_inter(t_Intersection *inter, float dist,
+						unsigned int color, t_object *obj);
 t_Vector3			reflect(t_Vector3 I, t_Vector3 N);
-int					check_coll(t_Vector3 ray_dir, t_scene *escena, t_object *obj);
+int					check_coll(t_Vector3 ray_dir, t_scene *escena,
+						t_object *obj);
 
-//color.c
+// color.c
 t_RGB				rgba_to_rgb(unsigned int color);
 unsigned int		rgb_to_rgba(t_RGB rgb);
 unsigned int		color_merge(unsigned int min_color, t_RGB ambient);
-unsigned int		compute_color(t_scene *escena, t_shade shading, t_Intersection inter,\
-					int light);
+unsigned int		compute_color(t_scene *escena, t_shade shading,
+						t_Intersection inter, int light);
 
-//parse.c
-int					setlight(t_scene *scene,char **line_split, int *error);
-int 				setcamera(t_scene *scene,char **line_split, int *error);
-void    			add_light_scene(t_scene *scene, t_light *light);
-int 				setlight(t_scene *scene,char **line_split, int *error);
+// parse.c
+int					setlight(t_scene *scene, char **line_split, int *error);
+int					setcamera(t_scene *scene, char **line_split, int *error);
+void				add_light_scene(t_scene *scene, t_light *light);
+int					setlight(t_scene *scene, char **line_split, int *error);
 
-//parse_obj.c
+// parse_obj.c
 
 int					setplane(t_scene **scene, char **line_split, int *error);
-int 				setsphere(t_scene **scene, char **line_split, int *error);
-int 				setcylinder(t_scene **scene, char **line_split, int *error);
-void 				parse(t_scene *scene, char *file);
+int					setsphere(t_scene **scene, char **line_split, int *error);
+int					setcylinder(t_scene **scene, char **line_split, int *error);
+void				parse(t_scene *scene, char *file);
 
-//parse_utils.c
+// parse_utils.c
 float				ft_atof(char *n);
 int					array_len(char **array);
-void				set_color(t_RGB *color,char **col_num);
-int					is_float_array(char  *str);
-int 				valid_iii(char **str);
+void				set_color(t_RGB *color, char **col_num);
+int					is_float_array(char *str);
+int					valid_iii(char **str);
+int					setambient(t_scene *scene, char **line_split, int *error);
 
-//parse_utils2.c
+// parse_utils2.c
 void				set_pos(t_Vector3 *pos, char **pos_a);
-void 				set_rot(t_Vector3 *pos, char **pos_a);
-
+void				set_rot(t_Vector3 *pos, char **pos_a);
+int					valid_fff(char **str);
 
 #endif
-
-
-
