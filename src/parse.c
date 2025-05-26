@@ -6,7 +6,7 @@
 /*   By: enetxeba <enetxeba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 09:10:06 by enetxeba          #+#    #+#             */
-/*   Updated: 2025/05/22 13:33:10 by enetxeba         ###   ########.fr       */
+/*   Updated: 2025/05/26 10:08:34 by enetxeba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -137,8 +137,8 @@ void set_pos(t_Vector3 *pos, char **pos_a)
 void set_rot(t_Vector3 *pos, char **pos_a)
 {
     pos->x = ft_atof(pos_a[0]);
-    pos->y = ft_atof(pos_a[2]);
-    pos->z = ft_atof(pos_a[1]);
+    pos->y = ft_atof(pos_a[1]);
+    pos->z = ft_atof(pos_a[2]);
 }
 
 int setcamera(t_scene *scene,char **line_split, int *error)
@@ -161,7 +161,7 @@ int setcamera(t_scene *scene,char **line_split, int *error)
     return (0);
 }
 
-int setlight(t_scene **scene,char **line_split, int *error)
+int setlight(t_scene *scene,char **line_split, int *error)
 {
     char    **tmp;
     int     i;
@@ -181,16 +181,16 @@ int setlight(t_scene **scene,char **line_split, int *error)
     if (valid_iii(tmp))
         return (*error = 1, 1);
     set_color(light->color,tmp );
-    if (!(*scene)->light)
+    if (!scene->light)
     { 
-        (*scene)->light = light;
+        scene->light = light;
         return (0);
         
     }
-    last_light = (*scene)->light;
-    while (last_light)
+    last_light = scene->light;
+    while (last_light->next)
         last_light = last_light->next;
-    last_light = light;
+    last_light->next = light;
     return (0);
 }
 
@@ -332,7 +332,7 @@ void parse(t_scene *scene, char *file)
         else  if (!ft_strncmp (line_split[0],"C",1))
             setcamera(scene, line_split, &error);
         else  if (!(ft_strncmp (line_split[0],"L", 1)))
-            setlight(&scene, line_split, &error);
+            setlight(scene, line_split, &error);
         else  if (!(ft_strncmp (line_split[0],"pl",2)))
             setplane(&scene, line_split, &error);
         else  if (!(ft_strncmp (line_split[0],"sp",2)))

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: imugica- <imugica-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: enetxeba <enetxeba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 13:16:36 by imugica-          #+#    #+#             */
-/*   Updated: 2025/05/22 12:49:44 by imugica-         ###   ########.fr       */
+/*   Updated: 2025/05/26 10:40:58 by enetxeba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -273,7 +273,9 @@ int	main(int argc, char **argv)
 
 	//escena = harcoding();
     
+	
     escena = (t_scene *) malloc (sizeof (t_scene));
+	ft_memset (escena, 0 , sizeof(t_scene));
     parse(escena, argv[1]);
 	(void)argc;
 	if (!(mlx = mlx_init(1920, 1080, "tXuperRT", true)))
@@ -297,5 +299,6 @@ int	main(int argc, char **argv)
 	mlx_key_hook(mlx, key_hook, mlx);
 	mlx_loop(mlx);
 	mlx_terminate(mlx);
+	free_escena(&escena);
 	return (0);
 }

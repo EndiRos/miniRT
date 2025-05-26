@@ -6,7 +6,7 @@
 /*   By: enetxeba <enetxeba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 10:39:45 by enetxeba          #+#    #+#             */
-/*   Updated: 2025/05/22 10:58:15 by enetxeba         ###   ########.fr       */
+/*   Updated: 2025/05/26 08:47:46 by enetxeba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,6 @@ void free_light(t_scene *scene)
 		scene->light = scene->light->next;
 		free(tmp);
 	}
-	free(scene->light);
 	return ;
 	
 }
