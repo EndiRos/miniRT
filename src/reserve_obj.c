@@ -6,7 +6,7 @@
 /*   By: enetxeba <enetxeba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 11:31:34 by enetxeba          #+#    #+#             */
-/*   Updated: 2025/05/26 11:58:06 by enetxeba         ###   ########.fr       */
+/*   Updated: 2025/05/27 14:34:09 by enetxeba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 t_object	*reserve_obj(int *error)
 {
-	t_object *obj;
-	
+	t_object	*obj;
+
 	obj = (t_object *) malloc (sizeof (t_object));
 	if (!obj)
 		return (*error = 2, NULL);
@@ -24,32 +24,32 @@ t_object	*reserve_obj(int *error)
 	return (obj);
 }
 
-t_plane_prop *reserve_plane(int *error)
+t_plane_prop	*reserve_plane(int *error)
 {
-	t_plane_prop *plane;
+	t_plane_prop	*plane;
 
 	plane = (t_plane_prop *) malloc (sizeof (t_plane_prop));
 	if (!plane)
 	{	
 		*error = 2;
 		return (NULL);
-	} 
+	}
 	ft_memset(plane, 0, sizeof(t_plane_prop));
 	plane->pos = reserve_vector(error);
 	plane->rot = reserve_vector(error);
 	plane->material = reserve_material(error);
-	return(plane);
-
+	return (plane);
 }
-t_sphere_prop *reserve_sphere(int *error)
+
+t_sphere_prop	*reserve_sphere(int *error)
 {
-	t_sphere_prop *obj;
+	t_sphere_prop	*obj;
 
 	obj = (t_sphere_prop *) malloc (sizeof (t_sphere_prop));
 	if (!obj)
 	{	
 		*error = 2;
-		return (NULL) ;
+		return (NULL);
 	}
 	ft_memset(obj, 0, sizeof(t_sphere_prop));
 	obj->pos = reserve_vector(error);
@@ -57,12 +57,11 @@ t_sphere_prop *reserve_sphere(int *error)
 	obj->material = reserve_material(error);
 	obj->radius = 0.0;
 	return (obj);
-
 }
 
-t_cyl_prop *reserve_cyl (int *error)
+t_cyl_prop	*reserve_cyl(int *error)
 {
-	t_cyl_prop *obj;
+	t_cyl_prop	*obj;
 
 	obj = (t_cyl_prop *) malloc (sizeof (t_cyl_prop));
 	if (!obj)
