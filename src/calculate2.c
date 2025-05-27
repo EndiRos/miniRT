@@ -6,58 +6,50 @@
 /*   By: imugica- <imugica-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 11:40:45 by enetxeba          #+#    #+#             */
-/*   Updated: 2025/05/26 14:28:16 by imugica-         ###   ########.fr       */
+/*   Updated: 2025/05/27 12:07:30 by imugica-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
 
-unsigned int	shade(t_Intersection inter, t_Vector3 ray_dir, t_scene *escena,
-	int light)
+unsigned int	shade(t_Intersection in, t_Vector3 ray_dir, t_scene *escena,
+		int light)
 {
-t_shade	shading;
+	t_shade	s;
 
-shading.hit_point = vector_add(*escena->cam->pos, vector_scale(ray_dir,
-			inter.min_dist));
-shading.normal = vector_normalize((t_Vector3){0, 0, 1});
-if (inter.object->obj_type == SPHERE)
-	shading.normal = vector_normalize(sphere_normal((t_sphere_prop *)inter.object->props,
-				shading.hit_point));
-else if (inter.object->obj_type == PLANE)
-	shading.normal = vector_normalize(plane_normal((t_plane_prop *)inter.object->props));
-else if (inter.object->obj_type == CYLINDER)
-	shading.normal = vector_normalize(cylinder_normal((t_cyl_prop *)inter.object->props,
-				shading.hit_point));
-// compute_color(shading);
-return (compute_color(escena, shading, inter, light));
+	s.hit_point = vector_add(*escena->cam->pos, vector_scale(ray_dir,
+				in.min_dist));
+	s.normal = vector_normalize((t_Vector3){0, 0, 1});
+	if (in.object->obj_type == SPHERE)
+		s.normal = (sphere_normal((t_sphere_prop *)in.object->props,
+					s.hit_point));
+	else if (in.object->obj_type == PLANE)
+		s.normal = (plane_normal((t_plane_prop *)in.object->props));
+	else if (in.object->obj_type == CYLINDER)
+		s.normal = (cylinder_normal((t_cyl_prop *)in.object->props,
+					s.hit_point));
+	s.normal = vector_normalize(s.normal);
+	return (compute_color(escena, s, in, light));
 }
 
-t_Vector3 create_cam_ray(float px_camera, float py_camera, t_scene *escena)
+t_Vector3	create_cam_ray(float px_camera, float py_camera, t_scene *escena)
 {
-    t_Vector3 cam_forward = *escena->cam->rot;
-    t_Vector3 world_up = {0.0f, 1.0f, 0.0f};
-    t_Vector3 cam_right = vector_normalize(vector_cross(world_up, cam_forward));
-    t_Vector3 cam_up = vector_cross(cam_forward, cam_right);
+	t_Vector3	world_up;
+	t_Vector3	cam_right;
+	t_Vector3	cam_up;
+	t_Vector3	ray_cam_dir;
+	t_Vector3	ray_world_dir;
 
-    t_Vector3 ray_cam_dir = {
-        px_camera * escena->cam->aspect_ratio * escena->cam->scale,
-        py_camera * escena->cam->scale,
-        1.0f
-    };
-
-    t_Vector3 ray_world_dir = vector_normalize(
-        vector_add(
-            vector_add(
-                vector_scale(cam_right, ray_cam_dir.x),
-                vector_scale(cam_up, ray_cam_dir.y)
-            ),
-            vector_scale(cam_forward, ray_cam_dir.z)
-        )
-    );
-
-    return ray_world_dir;
+	world_up = (t_Vector3){0.0f, 1.0f, 0.0f};
+	cam_right = vector_normalize(vector_cross(world_up, *escena->cam->rot));
+	cam_up = vector_cross(*escena->cam->rot, cam_right);
+	ray_cam_dir = (t_Vector3){px_camera * escena->cam->aspect_ratio
+		* escena->cam->scale, py_camera * escena->cam->scale, 1.0f};
+	ray_world_dir = (vector_add(vector_add(vector_scale(cam_right,
+						ray_cam_dir.x), vector_scale(cam_up, ray_cam_dir.y)),
+				vector_scale(*escena->cam->rot, ray_cam_dir.z)));
+	return (vector_normalize(ray_world_dir));
 }
-
 
 void	calculate_image(mlx_image_t *image, t_scene *escena)
 {

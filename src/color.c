@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   color.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: enetxeba <enetxeba@student.42.fr>          +#+  +:+       +#+        */
+/*   By: imugica- <imugica-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 11:18:17 by enetxeba          #+#    #+#             */
-/*   Updated: 2025/05/26 11:42:01 by enetxeba         ###   ########.fr       */
+/*   Updated: 2025/05/27 11:39:36 by imugica-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,28 +50,29 @@ unsigned int	color_merge(unsigned int min_color, t_RGB ambient)
 }
 
 unsigned int	compute_color(t_scene *escena, t_shade shading,
-	t_Intersection inter, int light)
+		t_Intersection inter, int light)
 {
-t_RGB base_rgb; //
-float diffuse;  //
-float specular; //
-shading.light_dir = vector_normalize(vector_sub(*escena->light->pos,
-			shading.hit_point));
-shading.view_dir = vector_normalize(vector_sub(*escena->cam->pos,
-			shading.hit_point));
-diffuse = fmaxf(0.0f, vector_dot(shading.normal, shading.light_dir))
-	* escena->light->intensity;
-shading.reflected = reflect(vector_scale(shading.light_dir, -1),
-		shading.normal);
-specular = powf(fmaxf(vector_dot(shading.reflected, shading.view_dir),
-			0.0f), 32.0f);
-specular *= escena->light->intensity * light;
-base_rgb = rgba_to_rgb(inter.min_color);
-base_rgb.r = fminf(base_rgb.r * diffuse + specular * 255.0f
-		+ escena->seting->ambient_col->r, 255);
-base_rgb.g = fminf(base_rgb.g * diffuse + specular * 255.0f
-		+ escena->seting->ambient_col->g, 255);
-base_rgb.b = fminf(base_rgb.b * diffuse + specular * 255.0f
-		+ escena->seting->ambient_col->b, 255);
-return (rgb_to_rgba(base_rgb));
+	t_RGB	base_rgb;
+	float	diffuse;
+	float	specular;
+
+	shading.light_dir = vector_normalize(vector_sub(*escena->light->pos,
+				shading.hit_point));
+	shading.view_dir = vector_normalize(vector_sub(*escena->cam->pos,
+				shading.hit_point));
+	diffuse = fmaxf(0.0f, vector_dot(shading.normal, shading.light_dir))
+		* escena->light->intensity;
+	shading.reflected = reflect(vector_scale(shading.light_dir, -1),
+			shading.normal);
+	specular = powf(fmaxf(vector_dot(shading.reflected, shading.view_dir),
+				0.0f), 32.0f);
+	specular *= escena->light->intensity * light;
+	base_rgb = rgba_to_rgb(inter.min_color);
+	base_rgb.r = fminf(base_rgb.r * diffuse + specular * 255.0f
+			+ escena->seting->ambient_col->r, 255);
+	base_rgb.g = fminf(base_rgb.g * diffuse + specular * 255.0f
+			+ escena->seting->ambient_col->g, 255);
+	base_rgb.b = fminf(base_rgb.b * diffuse + specular * 255.0f
+			+ escena->seting->ambient_col->b, 255);
+	return (rgb_to_rgba(base_rgb));
 }

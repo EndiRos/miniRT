@@ -6,7 +6,7 @@
 /*   By: imugica- <imugica-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 13:16:46 by imugica-          #+#    #+#             */
-/*   Updated: 2025/05/26 14:16:59 by imugica-         ###   ########.fr       */
+/*   Updated: 2025/05/27 11:52:55 by imugica-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -203,8 +203,8 @@ void				calculate_image(mlx_image_t *image, t_scene *escena);
 // callculate.c
 unsigned int		get_intersection(t_object *obj, t_Vector3 ray_origin,
 						t_Vector3 ray_dir, float *dist);
-int					check_light(t_object *scene, t_Vector3 cam_origin,
-						t_Vector3 ray_dir, float min_dist, t_Vector3 light_pos);
+int					check_light(t_scene *scene, t_Vector3 cam_origin,
+						t_Vector3 ray_dir, float min_dist);
 void				set_inter(t_Intersection *inter, float dist,
 						unsigned int color, t_object *obj);
 t_Vector3			reflect(t_Vector3 I, t_Vector3 N);

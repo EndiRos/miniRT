@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ray_cylinder.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: imugica- <imugica-@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/05/27 12:09:37 by imugica-          #+#    #+#             */
+/*   Updated: 2025/05/27 12:16:09 by imugica-         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minirt.h"
 
 int	cyl_quadratic(t_Vector3 ray_orig, t_Vector3 ray_dir, t_cyl_prop cyl,
@@ -26,14 +38,12 @@ int	cyl_face_coll(t_Vector3 ray_orig, t_Vector3 ray_dir, t_cyl_prop cyl,
 	t_Vector3	pc;
 	float		proj;
 	float		half_height;
-	float		epsilon;
 
 	half_height = cyl.height * 0.5f;
-	epsilon = 1e-4f;
 	p = vector_add(ray_orig, vector_scale(ray_dir, *t_out));
 	pc = vector_sub(p, *cyl.pos);
 	proj = vector_dot(pc, *cyl.rot);
-	if (proj >= -half_height - epsilon && proj <= half_height + epsilon)
+	if (proj >= -half_height - 0.00001f && proj <= half_height + 0.00001f)
 		return (1);
 	return (0);
 }
@@ -41,28 +51,32 @@ int	cyl_face_coll(t_Vector3 ray_orig, t_Vector3 ray_dir, t_cyl_prop cyl,
 int	cyl_top_bot_coll(t_Vector3 ray_orig, t_Vector3 ray_dir, t_cyl_prop cyl,
 		float *t_out)
 {
-	int		i;
-	int		hit;
-	float	epsilon;
+	int	i;
+	int	hit;
 
 	t_Vector3 cap_center, oc_to_cap, p_cap, pc_cap;
 	float denom, t, best_t = *t_out;
 	hit = 0;
-	epsilon = 1e-4f;
-	for (i = 0; i < 2; i++)
+	i = -1;
+	while (i < 2)
 	{
-		cap_center = vector_add(*cyl.pos, vector_scale(*cyl.rot, (i == 0 ?
-						-0.5f : 0.5f) * cyl.height));
+		i++;
+		if (i == 0)
+			cap_center = vector_add(*cyl.pos, vector_scale(*cyl.rot, (-0.5f)
+						* cyl.height));
+		else
+			cap_center = vector_add(*cyl.pos, vector_scale(*cyl.rot, (0.5f)
+						* cyl.height));
 		oc_to_cap = vector_sub(cap_center, ray_orig);
 		denom = vector_dot(ray_dir, *cyl.rot);
-		if (fabsf(denom) < 1e-6f)
+		if (fabsf(denom) < 0.000001f)
 			continue ;
 		t = vector_dot(oc_to_cap, *cyl.rot) / denom;
 		if (t < 0.001f || t >= best_t)
 			continue ;
 		p_cap = vector_add(ray_orig, vector_scale(ray_dir, t));
 		pc_cap = vector_sub(p_cap, cap_center);
-		if (vector_dot(pc_cap, pc_cap) <= cyl.radius * cyl.radius + epsilon)
+		if (vector_dot(pc_cap, pc_cap) <= cyl.radius * cyl.radius + 0.00001f)
 		{
 			best_t = t;
 			hit = 1;
