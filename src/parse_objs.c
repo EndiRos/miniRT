@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parse _objs.c                                      :+:      :+:    :+:   */
+/*   parse_objs.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: enetxeba <enetxeba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 09:10:06 by enetxeba          #+#    #+#             */
-/*   Updated: 2025/05/26 12:25:18 by enetxeba         ###   ########.fr       */
+/*   Updated: 2025/05/27 11:14:49 by enetxeba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,7 +110,7 @@ int setcylinder(t_scene **scene, char **line_split, int *error)
     tmp = ft_split(line_split[i++], ',');
     if (valid_fff(tmp))
         return (*error = 1, 1);
-    set_rot(props->rot, tmp);
+    set_rot((props->rot), tmp);
     if (is_float_array(line_split[i]))
         return (*error = 1, 1);
     props->radius = ft_atof(line_split[i++]);

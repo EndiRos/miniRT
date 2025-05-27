@@ -6,7 +6,7 @@
 /*   By: enetxeba <enetxeba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 09:10:06 by enetxeba          #+#    #+#             */
-/*   Updated: 2025/05/26 13:16:18 by enetxeba         ###   ########.fr       */
+/*   Updated: 2025/05/27 11:14:22 by enetxeba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,4 +27,5 @@ void set_rot(t_Vector3 *pos, char **pos_a)
     pos->x = ft_atof(pos_a[0]);
     pos->y = ft_atof(pos_a[1]);
     pos->z = ft_atof(pos_a[2]);
+    *pos = vector_normalize(*pos);
 }
