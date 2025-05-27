@@ -6,7 +6,7 @@
 /*   By: imugica- <imugica-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 12:09:37 by imugica-          #+#    #+#             */
-/*   Updated: 2025/05/27 12:16:09 by imugica-         ###   ########.fr       */
+/*   Updated: 2025/05/27 14:25:43 by imugica-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,11 +51,17 @@ int	cyl_face_coll(t_Vector3 ray_orig, t_Vector3 ray_dir, t_cyl_prop cyl,
 int	cyl_top_bot_coll(t_Vector3 ray_orig, t_Vector3 ray_dir, t_cyl_prop cyl,
 		float *t_out)
 {
-	int	i;
-	int	hit;
+	int			i;
+	int			hit;
+	t_Vector3	cap_center;
+	t_Vector3	oc_to_cap;
+	t_Vector3	p_cap;
+	t_Vector3	pc_cap;
+	float		denom;
+	float		t;
+	float		best_t;
 
-	t_Vector3 cap_center, oc_to_cap, p_cap, pc_cap;
-	float denom, t, best_t = *t_out;
+	best_t = *t_out;
 	hit = 0;
 	i = -1;
 	while (i < 2)
@@ -83,7 +89,10 @@ int	cyl_top_bot_coll(t_Vector3 ray_orig, t_Vector3 ray_dir, t_cyl_prop cyl,
 		}
 	}
 	if (hit)
-		return (*t_out = best_t, 1);
+	{
+		*t_out = best_t;
+		return (1);
+	}
 	return (0);
 }
 
