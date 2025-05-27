@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minirt.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: imugica- <imugica-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: enetxeba <enetxeba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 13:16:46 by imugica-          #+#    #+#             */
-/*   Updated: 2025/05/26 14:16:59 by imugica-         ###   ########.fr       */
+/*   Updated: 2025/05/27 13:51:16 by enetxeba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -244,4 +244,10 @@ void				set_pos(t_Vector3 *pos, char **pos_a);
 void				set_rot(t_Vector3 *pos, char **pos_a);
 int					valid_fff(char **str);
 
+// parse_utils3.c
+char				**split_fff(char *line_split, int *error, int *i);
+char				**split_iii(char *line_split, int *error, int *i);
+void				add_to_end(t_scene **scene, t_object *obj);
+void				set_options(t_scene *scene, char **line_split, int *error);
+void				on_error(t_scene **scene, int *error, int fd);
 #endif

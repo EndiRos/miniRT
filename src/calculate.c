@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   calculate.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: imugica- <imugica-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: enetxeba <enetxeba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 11:40:45 by enetxeba          #+#    #+#             */
-/*   Updated: 2025/05/26 14:18:27 by imugica-         ###   ########.fr       */
+/*   Updated: 2025/05/27 14:14:14 by enetxeba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ t_Vector3	reflect(t_Vector3 I, t_Vector3 N)
 	float	dot_product;
 
 	dot_product = vector_dot(I, N);
-	return (vector_sub(I, vector_scale(N, 2.0f * dot_product)));
+	return (vector_sub(I, vector_scale(N, 1.0f * dot_product)));
 }
 
 int	check_coll(t_Vector3 ray_dir, t_scene *escena, t_object *obj)
