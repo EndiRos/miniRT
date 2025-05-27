@@ -6,7 +6,7 @@
 /*   By: imugica- <imugica-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 13:16:46 by imugica-          #+#    #+#             */
-/*   Updated: 2025/05/27 11:52:55 by imugica-         ###   ########.fr       */
+/*   Updated: 2025/05/27 14:34:03 by imugica-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,6 +130,14 @@ typedef struct s_shade
 	t_Vector3		reflected;
 }					t_shade;
 
+typedef struct s_cylcol
+{
+	t_Vector3		cap_center;
+	t_Vector3		oc_to_cap;
+	t_Vector3		p_cap;
+	t_Vector3		pc_cap;
+}					t_cylcol;
+
 t_Vector3			vector_add(t_Vector3 a, t_Vector3 b);
 
 t_Vector3			vector_sub(t_Vector3 a, t_Vector3 b);
@@ -190,7 +198,7 @@ t_sphere_prop		*reserve_sphere(int *error);
 t_cyl_prop			*reserve_cyl(int *error);
 
 /// reserve_utils.c
-t_RGB*				reserve_rgb(int *error);
+t_RGB				*reserve_rgb(int *error);
 t_Vector3			*reserve_vector(int *error);
 
 // calculate2.c

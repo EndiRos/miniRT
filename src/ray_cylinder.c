@@ -6,7 +6,7 @@
 /*   By: imugica- <imugica-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 12:09:37 by imugica-          #+#    #+#             */
-/*   Updated: 2025/05/27 14:25:43 by imugica-         ###   ########.fr       */
+/*   Updated: 2025/05/27 14:36:39 by imugica-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,13 +53,10 @@ int	cyl_top_bot_coll(t_Vector3 ray_orig, t_Vector3 ray_dir, t_cyl_prop cyl,
 {
 	int			i;
 	int			hit;
-	t_Vector3	cap_center;
-	t_Vector3	oc_to_cap;
-	t_Vector3	p_cap;
-	t_Vector3	pc_cap;
 	float		denom;
 	float		t;
 	float		best_t;
+	t_cylcol	info;
 
 	best_t = *t_out;
 	hit = 0;
@@ -68,32 +65,30 @@ int	cyl_top_bot_coll(t_Vector3 ray_orig, t_Vector3 ray_dir, t_cyl_prop cyl,
 	{
 		i++;
 		if (i == 0)
-			cap_center = vector_add(*cyl.pos, vector_scale(*cyl.rot, (-0.5f)
-						* cyl.height));
+			info.cap_center = vector_add(*cyl.pos, vector_scale(*cyl.rot,
+						(-0.5f) * cyl.height));
 		else
-			cap_center = vector_add(*cyl.pos, vector_scale(*cyl.rot, (0.5f)
+			info.cap_center = vector_add(*cyl.pos, vector_scale(*cyl.rot, (0.5f)
 						* cyl.height));
-		oc_to_cap = vector_sub(cap_center, ray_orig);
+		info.oc_to_cap = vector_sub(info.cap_center, ray_orig);
 		denom = vector_dot(ray_dir, *cyl.rot);
 		if (fabsf(denom) < 0.000001f)
 			continue ;
-		t = vector_dot(oc_to_cap, *cyl.rot) / denom;
+		t = vector_dot(info.oc_to_cap, *cyl.rot) / denom;
 		if (t < 0.001f || t >= best_t)
 			continue ;
-		p_cap = vector_add(ray_orig, vector_scale(ray_dir, t));
-		pc_cap = vector_sub(p_cap, cap_center);
-		if (vector_dot(pc_cap, pc_cap) <= cyl.radius * cyl.radius + 0.00001f)
+		info.p_cap = vector_add(ray_orig, vector_scale(ray_dir, t));
+		info.pc_cap = vector_sub(info.p_cap, info.cap_center);
+		if (vector_dot(info.pc_cap, info.pc_cap) <= cyl.radius * cyl.radius
+			+ 0.00001f)
 		{
 			best_t = t;
 			hit = 1;
 		}
 	}
 	if (hit)
-	{
 		*t_out = best_t;
-		return (1);
-	}
-	return (0);
+	return (hit);
 }
 
 void	save_hit(int *hit, float *best_t, float t)
