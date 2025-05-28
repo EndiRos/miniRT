@@ -2,6 +2,7 @@
     "files.associations": {
         "cstdlib": "c",
         "random": "c",
-        "minirt.h": "c"
+        "minirt.h": "c",
+        "limits": "c"
     }
 }

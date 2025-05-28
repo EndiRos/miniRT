@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: enetxeba <enetxeba@student.42.fr>          +#+  +:+       +#+        */
+/*   By: imugica- <imugica-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 13:16:36 by imugica-          #+#    #+#             */
-/*   Updated: 2025/05/28 08:45:48 by enetxeba         ###   ########.fr       */
+/*   Updated: 2025/05/28 10:47:59 by imugica-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,23 +22,26 @@ void	key_hook(struct mlx_key_data keydata, void *param)
 		mlx_close_window(mlx);
 	}
 }
+
 int	main(int argc, char **argv)
 {
 	mlx_t		*mlx;
 	mlx_image_t	*image;
 	t_scene		*escena;
 
-    escena = (t_scene *) malloc (sizeof (t_scene));
-	ft_memset (escena, 0 , sizeof(t_scene));
-    parse(escena, argv[1]);
+	escena = (t_scene *)malloc(sizeof(t_scene));
+	ft_memset(escena, 0, sizeof(t_scene));
+	parse(escena, argv[1]);
 	(void)argc;
-	if (!(mlx = mlx_init(1920, 1080, "tXuperRT", true)))
+	mlx = mlx_init(1920, 1080, "tXuperRT", true);
+	if (!mlx)
 		return (perror(mlx_strerror(mlx_errno)), 1);
-	if (!(image = mlx_new_image(mlx, 1920, 1080)))
-		return (mlx_close_window(mlx),perror(mlx_strerror(mlx_errno)), 1);
+	image = mlx_new_image(mlx, 1920, 1080);
+	if (!image)
+		return (mlx_close_window(mlx), perror(mlx_strerror(mlx_errno)), 1);
 	calculate_image(image, escena);
 	if (mlx_image_to_window(mlx, image, 0, 0) == -1)
-		return (mlx_close_window(mlx),perror(mlx_strerror(mlx_errno)), 1);
+		return (mlx_close_window(mlx), perror(mlx_strerror(mlx_errno)), 1);
 	mlx_key_hook(mlx, key_hook, mlx);
 	mlx_loop(mlx);
 	mlx_terminate(mlx);

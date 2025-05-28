@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minirt.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: enetxeba <enetxeba@student.42.fr>          +#+  +:+       +#+        */
+/*   By: imugica- <imugica-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 13:16:46 by imugica-          #+#    #+#             */
-/*   Updated: 2025/05/28 12:07:46 by enetxeba         ###   ########.fr       */
+/*   Updated: 2025/05/28 13:58:09 by imugica-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,6 +131,12 @@ typedef struct s_shade
 	t_Vector3		reflected;
 }					t_shade;
 
+typedef struct s_CylCapData
+{
+	t_Vector3		cap;
+	t_cyl_prop		cyl;
+}					t_CylCapData;
+
 t_Vector3			vector_add(t_Vector3 a, t_Vector3 b);
 
 t_Vector3			vector_sub(t_Vector3 a, t_Vector3 b);
@@ -191,7 +197,7 @@ t_sphere_prop		*reserve_sphere(int *error);
 t_cyl_prop			*reserve_cyl(int *error);
 
 /// reserve_utils.c
-t_RGB*				reserve_rgb(int *error);
+t_RGB				*reserve_rgb(int *error);
 t_Vector3			*reserve_vector(int *error);
 
 // calculate2.c
@@ -201,11 +207,15 @@ t_Vector3			create_cam_ray(float px_camera, float py_camera,
 						t_scene *escena);
 void				calculate_image(mlx_image_t *image, t_scene *escena);
 
+// collisions.c
+int					is_inside(t_scene *escena, t_object *obj);
+int					point_in_cyl(t_cyl_prop cyl, t_Vector3 cam_pos);
+
 // callculate.c
 unsigned int		get_intersection(t_object *obj, t_Vector3 ray_origin,
 						t_Vector3 ray_dir, float *dist);
-int					check_light(t_object *scene, t_Vector3 cam_origin,
-						t_Vector3 ray_dir, float min_dist, t_Vector3 light_pos);
+int					check_light(t_scene *scene, t_Vector3 cam_origin,
+						t_Vector3 ray_dir, float min_dist);
 void				set_inter(t_Intersection *inter, float dist,
 						unsigned int color, t_object *obj);
 t_Vector3			reflect(t_Vector3 I, t_Vector3 N);
@@ -252,4 +262,11 @@ char				**split_iii(char *line_split, int *error, int *i);
 void				add_to_end(t_scene **scene, t_object *obj);
 void				set_options(t_scene *scene, char **line_split, int *error);
 void				on_error(t_scene **scene, int *error, int fd);
+
+// ray_cylinder2.c
+int					cyl_top_bot_coll(t_Vector3 ray_orig, t_Vector3 ray_dir,
+						t_cyl_prop cyl, float *t_out);
+int					cyl_check_cap_hit(t_Vector3 ray_orig, t_Vector3 ray_dir,
+						t_CylCapData cyl, float *best_t);
+t_Vector3			cyl_get_cap_center(t_cyl_prop cyl, int is_top);
 #endif
