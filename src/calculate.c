@@ -6,7 +6,7 @@
 /*   By: imugica- <imugica-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 11:40:45 by enetxeba          #+#    #+#             */
-/*   Updated: 2025/05/27 14:43:56 by imugica-         ###   ########.fr       */
+/*   Updated: 2025/05/28 12:05:52 by imugica-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,5 +98,15 @@ int	check_coll(t_Vector3 ray_dir, t_scene *escena, t_object *obj)
 				*escena->seting->ambient_col);
 	if (inter.object)
 		inter.min_color = shade(inter, ray_dir, escena, light);
+	else
+		inter.min_color = ambient_cal(*escena->seting->ambient_col, escena->seting->intensity);
 	return (inter.min_color);
+}
+
+unsigned int ambient_cal(t_RGB ambient_col, float inten)
+{
+	ambient_col.r *=inten;
+	ambient_col.g *=inten;
+	ambient_col.b *=inten;
+	return (rgb_to_rgba(ambient_col));
 }
