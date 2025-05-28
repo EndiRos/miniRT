@@ -6,7 +6,7 @@
 /*   By: enetxeba <enetxeba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 12:57:51 by enetxeba          #+#    #+#             */
-/*   Updated: 2025/05/28 08:47:56 by enetxeba         ###   ########.fr       */
+/*   Updated: 2025/05/28 14:04:05 by enetxeba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,14 +83,14 @@ void	on_error(t_scene **scene, int *error, int fd)
 	if (*error == 1)
 	{
 		free_escena(scene);
-		perror("Error: bad format file");
+		ft_putstr_fd("Error:\n bad format file", 2);
 		close(fd);
-		exit(1);
+		exit(0);
 	}
 	else if (*error == 2)
 	{
-		perror("Error: Malloc error");
+		ft_putstr_fd("Error:\n Malloc error", 2);
 		close(fd);
-		exit(1);
+		exit(0);
 	}
 }
