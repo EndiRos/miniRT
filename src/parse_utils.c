@@ -6,7 +6,7 @@
 /*   By: enetxeba <enetxeba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 09:10:06 by enetxeba          #+#    #+#             */
-/*   Updated: 2025/05/27 14:25:02 by enetxeba         ###   ########.fr       */
+/*   Updated: 2025/05/28 12:06:27 by enetxeba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,4 +41,10 @@ int	valid_fff(char **str)
 		c++;
 	}
 	return (0);
+}
+void	set_ambient_col(t_RGB *color, char **col_num, float inte)
+{
+	color->r = (ft_atoi (col_num[0])) * inte;
+	color->g = (ft_atoi (col_num[1])) * inte;
+	color->b = (ft_atoi (col_num[2])) * inte;
 }

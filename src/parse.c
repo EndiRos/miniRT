@@ -6,7 +6,7 @@
 /*   By: enetxeba <enetxeba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 09:10:06 by enetxeba          #+#    #+#             */
-/*   Updated: 2025/05/27 13:08:13 by enetxeba         ###   ########.fr       */
+/*   Updated: 2025/05/28 12:07:05 by enetxeba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ int	setambient(t_scene *scene, char **line_split, int *error)
 	color = ft_split(line_split[i], ',');
 	if (valid_iii(color))
 		return (*error = 1, 1);
-	set_color(scene->seting->ambient_col, color);
+	set_ambient_col(scene->seting->ambient_col, color, intensity);
 	return (0);
 }
 
