@@ -6,7 +6,7 @@
 /*   By: enetxeba <enetxeba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 12:57:51 by enetxeba          #+#    #+#             */
-/*   Updated: 2025/05/27 14:28:18 by enetxeba         ###   ########.fr       */
+/*   Updated: 2025/05/28 08:47:56 by enetxeba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,8 @@ void	set_options(t_scene *scene, char **line_split, int *error)
 		setsphere(&scene, line_split, error);
 	else if (!(ft_strncmp(line_split[0], "cy", 2)))
 		setcylinder(&scene, line_split, error);
+	else if (!(ft_strncmp(line_split[0], "\n", 2)))
+		;
 	else
 		*error = 1;
 }
