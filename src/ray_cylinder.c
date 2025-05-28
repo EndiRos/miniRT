@@ -6,7 +6,7 @@
 /*   By: imugica- <imugica-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 12:09:37 by imugica-          #+#    #+#             */
-/*   Updated: 2025/05/27 14:36:39 by imugica-         ###   ########.fr       */
+/*   Updated: 2025/05/28 13:59:17 by imugica-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,49 +46,6 @@ int	cyl_face_coll(t_Vector3 ray_orig, t_Vector3 ray_dir, t_cyl_prop cyl,
 	if (proj >= -half_height - 0.00001f && proj <= half_height + 0.00001f)
 		return (1);
 	return (0);
-}
-
-int	cyl_top_bot_coll(t_Vector3 ray_orig, t_Vector3 ray_dir, t_cyl_prop cyl,
-		float *t_out)
-{
-	int			i;
-	int			hit;
-	float		denom;
-	float		t;
-	float		best_t;
-	t_cylcol	info;
-
-	best_t = *t_out;
-	hit = 0;
-	i = -1;
-	while (i < 2)
-	{
-		i++;
-		if (i == 0)
-			info.cap_center = vector_add(*cyl.pos, vector_scale(*cyl.rot,
-						(-0.5f) * cyl.height));
-		else
-			info.cap_center = vector_add(*cyl.pos, vector_scale(*cyl.rot, (0.5f)
-						* cyl.height));
-		info.oc_to_cap = vector_sub(info.cap_center, ray_orig);
-		denom = vector_dot(ray_dir, *cyl.rot);
-		if (fabsf(denom) < 0.000001f)
-			continue ;
-		t = vector_dot(info.oc_to_cap, *cyl.rot) / denom;
-		if (t < 0.001f || t >= best_t)
-			continue ;
-		info.p_cap = vector_add(ray_orig, vector_scale(ray_dir, t));
-		info.pc_cap = vector_sub(info.p_cap, info.cap_center);
-		if (vector_dot(info.pc_cap, info.pc_cap) <= cyl.radius * cyl.radius
-			+ 0.00001f)
-		{
-			best_t = t;
-			hit = 1;
-		}
-	}
-	if (hit)
-		*t_out = best_t;
-	return (hit);
 }
 
 void	save_hit(int *hit, float *best_t, float t)

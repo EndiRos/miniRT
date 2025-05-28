@@ -6,7 +6,7 @@
 /*   By: imugica- <imugica-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 11:40:45 by enetxeba          #+#    #+#             */
-/*   Updated: 2025/05/28 12:05:52 by imugica-         ###   ########.fr       */
+/*   Updated: 2025/05/28 13:19:30 by imugica-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,39 +74,29 @@ int	check_light(t_scene *scene, t_Vector3 cam_origin, t_Vector3 ray_dir,
 
 int	check_coll(t_Vector3 ray_dir, t_scene *escena, t_object *obj)
 {
-	t_Intersection	inter;
+	t_Intersection	in;
 	float			temp_dist;
-	unsigned int	temp_color;
+	unsigned int	tc;
 	int				light;
 
-	inter.min_dist = FLT_MAX;
-	inter.min_color = 0;
-	inter.object = NULL;
+	in.min_dist = FLT_MAX;
+	in.min_color = 0;
+	in.object = NULL;
 	light = 0;
 	while (obj)
 	{
 		temp_dist = FLT_MAX;
-		temp_color = get_intersection(obj, *escena->cam->pos, ray_dir,
-				&temp_dist);
-		if (temp_dist < inter.min_dist)
-			set_inter(&inter, temp_dist, temp_color, obj);
+		tc = get_intersection(obj, *escena->cam->pos, ray_dir, &temp_dist);
+		if (temp_dist < in.min_dist)
+			set_inter(&in, temp_dist, tc, obj);
 		obj = obj->next;
 	}
-	light = check_light(escena, *escena->cam->pos, ray_dir, inter.min_dist);
+	light = check_light(escena, *escena->cam->pos, ray_dir, in.min_dist);
 	if (!light)
-		inter.min_color = color_merge(inter.min_color,
-				*escena->seting->ambient_col);
-	if (inter.object)
-		inter.min_color = shade(inter, ray_dir, escena, light);
+		in.min_color = color_merge(in.min_color, *escena->seting->ambient_col);
+	if (in.object && light && !is_inside(escena, in.object))
+		in.min_color = shade(in, ray_dir, escena, light);
 	else
-		inter.min_color = ambient_cal(*escena->seting->ambient_col, escena->seting->intensity);
-	return (inter.min_color);
-}
-
-unsigned int ambient_cal(t_RGB ambient_col, float inten)
-{
-	ambient_col.r *=inten;
-	ambient_col.g *=inten;
-	ambient_col.b *=inten;
-	return (rgb_to_rgba(ambient_col));
+		in.min_color = rgb_to_rgba(*escena->seting->ambient_col);
+	return (in.min_color);
 }
