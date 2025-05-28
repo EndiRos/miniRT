@@ -6,7 +6,7 @@
 /*   By: enetxeba <enetxeba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 13:16:46 by imugica-          #+#    #+#             */
-/*   Updated: 2025/05/27 13:51:16 by enetxeba         ###   ########.fr       */
+/*   Updated: 2025/05/28 12:07:46 by enetxeba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,6 +103,7 @@ typedef struct s_object
 typedef struct s_settings
 {
 	t_RGB			*ambient_col;
+	float			intensity;
 
 }					t_settings;
 
@@ -243,6 +244,7 @@ int					setambient(t_scene *scene, char **line_split, int *error);
 void				set_pos(t_Vector3 *pos, char **pos_a);
 void				set_rot(t_Vector3 *pos, char **pos_a);
 int					valid_fff(char **str);
+void				set_ambient_col(t_RGB *color, char **col_num, float inte);
 
 // parse_utils3.c
 char				**split_fff(char *line_split, int *error, int *i);
