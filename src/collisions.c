@@ -6,7 +6,7 @@
 /*   By: imugica- <imugica-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 11:40:45 by enetxeba          #+#    #+#             */
-/*   Updated: 2025/05/28 13:26:57 by imugica-         ###   ########.fr       */
+/*   Updated: 2025/05/29 11:48:12 by imugica-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,8 @@ int	is_inside(t_scene *escena, t_object *obj)
 	t_sphere_prop	sphere;
 	t_cyl_prop		cyl;
 
+	if (!obj)
+		return (1);
 	if (obj->obj_type == SPHERE)
 	{
 		sphere = *(t_sphere_prop *)obj->props;
