@@ -6,7 +6,7 @@
 /*   By: enetxeba <enetxeba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 12:57:51 by enetxeba          #+#    #+#             */
-/*   Updated: 2025/05/28 14:04:05 by enetxeba         ###   ########.fr       */
+/*   Updated: 2025/05/29 11:53:35 by enetxeba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ char	**split_iii(char *line_split, int *error, int *i)
 {
 	char	**tmp;
 
-	if (!line_split[*i])
+	if (!line_split)
 		return (*error = 1, NULL);
 	tmp = ft_split(line_split, ',');
 	if (!tmp)
@@ -78,19 +78,26 @@ void	set_options(t_scene *scene, char **line_split, int *error)
 		*error = 1;
 }
 
-void	on_error(t_scene **scene, int *error, int fd)
+void	on_error(t_scene **scene, int *error)
 {
 	if (*error == 1)
 	{
 		free_escena(scene);
 		ft_putstr_fd("Error:\n bad format file", 2);
-		close(fd);
-		exit(0);
 	}
 	else if (*error == 2)
 	{
+		free_escena(scene);
 		ft_putstr_fd("Error:\n Malloc error", 2);
-		close(fd);
-		exit(0);
 	}
+	else if (*error == 3)
+	{	
+		free_escena(scene);
+		ft_putstr_fd("Error:\n its mandatory define camera light and ambient colorr", 2);
+	}
+	else if (*error == 4)
+		ft_putstr_fd("Error:\n File not found", 2);
+	else
+		return ;
+	exit(1);
 }
