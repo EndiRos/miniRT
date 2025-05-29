@@ -6,7 +6,7 @@
 /*   By: enetxeba <enetxeba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 09:10:06 by enetxeba          #+#    #+#             */
-/*   Updated: 2025/05/29 11:11:27 by enetxeba         ###   ########.fr       */
+/*   Updated: 2025/05/29 12:14:51 by enetxeba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,6 +100,7 @@ void	parse(t_scene *scene, char *file)
 		line = get_next_line(fd);
 	}
 	close(fd);
+	on_error(&scene, &error);
 	if (!scene->cam || !scene->light || !scene->seting)
 		error = 3;
 	on_error(&scene, &error);
