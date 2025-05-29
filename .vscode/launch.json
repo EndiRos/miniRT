@@ -9,7 +9,7 @@
             "type": "cppdbg",
             "request": "launch",
             "program": "${workspaceFolder}/minirt",
-            "args": ["${workspaceFolder}/epic.rt"],
+            "args": ["${workspaceFolder}/esc.rt"],
             "stopAtEntry": true,
             "cwd": "${workspaceFolder}",
             "environment": [],

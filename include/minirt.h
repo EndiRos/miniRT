@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minirt.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: imugica- <imugica-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: enetxeba <enetxeba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 13:16:46 by imugica-          #+#    #+#             */
-/*   Updated: 2025/05/28 13:58:09 by imugica-         ###   ########.fr       */
+/*   Updated: 2025/05/29 11:08:44 by enetxeba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -261,7 +261,7 @@ char				**split_fff(char *line_split, int *error, int *i);
 char				**split_iii(char *line_split, int *error, int *i);
 void				add_to_end(t_scene **scene, t_object *obj);
 void				set_options(t_scene *scene, char **line_split, int *error);
-void				on_error(t_scene **scene, int *error, int fd);
+void				on_error(t_scene **scene, int *error);
 
 // ray_cylinder2.c
 int					cyl_top_bot_coll(t_Vector3 ray_orig, t_Vector3 ray_dir,
