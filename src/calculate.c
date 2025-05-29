@@ -6,7 +6,7 @@
 /*   By: imugica- <imugica-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 11:40:45 by enetxeba          #+#    #+#             */
-/*   Updated: 2025/05/28 13:19:30 by imugica-         ###   ########.fr       */
+/*   Updated: 2025/05/29 11:55:49 by imugica-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,9 +94,9 @@ int	check_coll(t_Vector3 ray_dir, t_scene *escena, t_object *obj)
 	light = check_light(escena, *escena->cam->pos, ray_dir, in.min_dist);
 	if (!light)
 		in.min_color = color_merge(in.min_color, *escena->seting->ambient_col);
-	if (in.object && light && !is_inside(escena, in.object))
+	else if (in.object && light && !is_inside(escena, in.object))
 		in.min_color = shade(in, ray_dir, escena, light);
-	else
+	if (!in.object || (in.object && is_inside(escena, in.object)))
 		in.min_color = rgb_to_rgba(*escena->seting->ambient_col);
 	return (in.min_color);
 }
