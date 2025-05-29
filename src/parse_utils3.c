@@ -6,7 +6,7 @@
 /*   By: enetxeba <enetxeba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 12:57:51 by enetxeba          #+#    #+#             */
-/*   Updated: 2025/05/29 11:53:35 by enetxeba         ###   ########.fr       */
+/*   Updated: 2025/05/29 12:54:32 by enetxeba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,8 @@ void	on_error(t_scene **scene, int *error)
 	else if (*error == 3)
 	{	
 		free_escena(scene);
-		ft_putstr_fd("Error:\n its mandatory define camera light and ambient colorr", 2);
+		ft_putstr_fd("Error:\n its mandatory define camera light", 2);
+		ft_putstr_fd("and ambient colorr", 2);
 	}
 	else if (*error == 4)
 		ft_putstr_fd("Error:\n File not found", 2);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   color.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: imugica- <imugica-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: enetxeba <enetxeba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 11:18:17 by enetxeba          #+#    #+#             */
-/*   Updated: 2025/05/27 11:39:36 by imugica-         ###   ########.fr       */
+/*   Updated: 2025/05/29 12:30:07 by enetxeba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,9 +64,7 @@ unsigned int	compute_color(t_scene *escena, t_shade shading,
 		* escena->light->intensity;
 	shading.reflected = reflect(vector_scale(shading.light_dir, -1),
 			shading.normal);
-	specular = powf(fmaxf(vector_dot(shading.reflected, shading.view_dir),
-				0.0f), 32.0f);
-	specular *= escena->light->intensity * light;
+	specular = 0 * light;
 	base_rgb = rgba_to_rgb(inter.min_color);
 	base_rgb.r = fminf(base_rgb.r * diffuse + specular * 255.0f
 			+ escena->seting->ambient_col->r, 255);
